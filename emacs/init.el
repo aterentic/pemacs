@@ -1,9 +1,16 @@
 (require 'package)
 
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/"))
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("tromey" . "http://tromey.com/elpa/") t)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (package-initialize)
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
 
 ;;; install required packages
 (defvar packages '(paredit
@@ -15,6 +22,10 @@
 		   markdown-mode
 		   clojure-mode
 		   cider
+		   projectile
+		   rainbow-delimiters
+		   tagedit
+		   magit
 		   haskell-mode))
 
 (dolist (package packages)
