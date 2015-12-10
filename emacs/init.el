@@ -26,7 +26,8 @@
 		   rainbow-delimiters
 		   tagedit
 		   magit
-		   haskell-mode))
+		   haskell-mode
+		   monokai-theme))
 
 (dolist (package packages)
   (unless (package-installed-p package)
@@ -38,6 +39,10 @@
 (add-hook 'js2-mode-hook 'ac-js2-mode)
 
 (setq js2-highlight-level 3)
+
+;;; themes
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'monokai t)
 
 ;;; yasnippet
 ;;; should be loaded before auto complete so that they can work together
@@ -56,3 +61,5 @@
 (ac-set-trigger-key "<tab>")
 
 (tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
