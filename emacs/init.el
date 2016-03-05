@@ -13,7 +13,8 @@
   (package-refresh-contents))
 
 ;;; install required packages
-(defvar packages '(paredit
+(defvar packages '(neotree
+		   paredit
 		   auto-complete
 		   yasnippet
 		   js2-mode
@@ -27,7 +28,8 @@
 		   tagedit
 		   magit
 		   haskell-mode
-		   monokai-theme))
+		   monokai-theme
+		   color-theme-solarized))
 
 (dolist (package packages)
   (unless (package-installed-p package)
@@ -43,7 +45,8 @@
 
 ;;; themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(load-theme 'monokai t)
+(set-frame-parameter nil 'background-mode 'dark)
+(load-theme 'solarized t)
 
 ;;; yasnippet
 ;;; should be loaded before auto complete so that they can work together
