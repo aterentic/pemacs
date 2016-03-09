@@ -77,4 +77,6 @@
 (setq user-full-name "Aleksandar Terentic")
 (setq user-mail-address "aterentic@gmail.com")
 
+(global-set-key (kbd "M-o") 'other-window)
+
 (toggle-frame-fullscreen)
