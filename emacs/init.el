@@ -14,6 +14,7 @@
 ;;; install required packages
 (defvar packages '(neotree
 		   paredit
+		   helm
 		   auto-complete
 		   yasnippet
 		   js2-mode
