@@ -78,8 +78,8 @@
 (setq user-full-name "Aleksandar Terentic")
 (setq user-mail-address "aterentic@gmail.com")
 
-(setq backup-directory-alist `((".*" . , temporary-file-directory)))
-(setq auto-save-file-name-transforms `((".*" . , temporary-file-directory)))
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 (global-set-key (kbd "M-o") 'other-window)
 
