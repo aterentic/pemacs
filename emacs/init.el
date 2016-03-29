@@ -78,6 +78,8 @@
 (setq user-full-name "Aleksandar Terentic")
 (setq user-mail-address "aterentic@gmail.com")
 
+(setq backup-directory-alist `(("." . "~/.emacs-saves")))
+
 (global-set-key (kbd "M-o") 'other-window)
 
 (toggle-frame-fullscreen)
