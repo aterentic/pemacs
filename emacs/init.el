@@ -78,7 +78,8 @@
 (setq user-full-name "Aleksandar Terentic")
 (setq user-mail-address "aterentic@gmail.com")
 
-(setq backup-directory-alist `(("." . "~/.emacs-saves")))
+(setq backup-directory-alist `((".*" . , temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" . , temporary-file-directory)))
 
 (global-set-key (kbd "M-o") 'other-window)
 
