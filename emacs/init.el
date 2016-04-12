@@ -28,6 +28,8 @@
 		   tagedit
 		   magit
 		   haskell-mode
+		   go-mode
+		   go-autocomplete
 		   monokai-theme
 		   color-theme-solarized))
 
@@ -63,6 +65,9 @@
 ;;; activate, otherwise, auto-complete will
 (ac-set-trigger-key "TAB")
 (ac-set-trigger-key "<tab>")
+
+;;; golang
+(require 'go-autocomplete)
 
 (setq inhibit-splash-screen t
       initial-scratch-message nil)
