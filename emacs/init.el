@@ -2,8 +2,9 @@
 
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
-	("marmalade" . "http://marmalade-repo.org/packages/")
+	("melpa-stable" . "http://stable.melpa.org/packages/")
 	("melpa" . "http://melpa.milkbox.net/packages/")
+	("marmalade" . "http://marmalade-repo.org/packages/")
 	("tromey" . "http://tromey.com/elpa/")))
 
 (package-initialize)
@@ -17,6 +18,7 @@
 		   helm
 		   auto-complete
 		   yasnippet
+		   flycheck
 		   js2-mode
 		   js2-refactor
 		   ac-js2
@@ -68,6 +70,8 @@
 
 ;;; golang
 (require 'go-autocomplete)
+
+(global-flycheck-mode)
 
 (setq inhibit-splash-screen t
       initial-scratch-message nil)
