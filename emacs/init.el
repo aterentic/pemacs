@@ -33,11 +33,17 @@
 		   go-mode
 		   go-autocomplete
 		   monokai-theme
+		   exec-path-from-shell
 		   color-theme-solarized))
 
 (dolist (package packages)
   (unless (package-installed-p package)
     (package-install package)))
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH")
+  (exec-path-from-shell-copy-env "GOROOT"))
 
 (add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
 
@@ -70,6 +76,7 @@
 
 ;;; golang
 (require 'go-autocomplete)
+(add-hook 'before-save-hook 'gofmt-before-save)
 
 (global-flycheck-mode)
 
