@@ -21,6 +21,7 @@
 		   flycheck
 		   js2-mode
 		   js2-refactor
+		   json-mode
 		   ac-js2
 		   markdown-mode
 		   clojure-mode
@@ -45,7 +46,9 @@
   (exec-path-from-shell-copy-env "GOPATH")
   (exec-path-from-shell-copy-env "GOROOT"))
 
-(add-to-list 'auto-mode-alist '("\\.json$" . js-mode))
+
+(add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+(add-hook 'json-mode-hook (lambda () (js2-minor-mode-exit)))
 
 (add-hook 'js-mode-hook (lambda () (setq tab-width 4)))
 (add-hook 'js-mode-hook 'js2-minor-mode)
