@@ -17,6 +17,7 @@
 		   paredit
 		   helm
 		   auto-complete
+		   company
 		   yasnippet
 		   flycheck
 		   js2-mode
@@ -33,6 +34,7 @@
 		   haskell-mode
 		   go-mode
 		   go-autocomplete
+		   company-go
 		   monokai-theme
 		   exec-path-from-shell
 		   color-theme-solarized))
@@ -80,6 +82,13 @@
 ;;; golang
 (require 'go-autocomplete)
 (add-hook 'before-save-hook 'gofmt-before-save)
+(add-hook 'go-mode-hook 'company-mode)
+(add-hook 'go-mode-hook (lambda ()
+			  (set (make-local-variable 'company-backends) '(company-go))
+			  (company-mode)))
+
+(add-hook 'go-mode-hook '(lambda ()
+			   (local-set-key (kbd "C-c C-k") 'godoc)))
 
 (global-flycheck-mode)
 
