@@ -81,6 +81,7 @@
 
 ;;; golang
 (require 'go-autocomplete)
+(setq gofmt-command "goimports")
 (add-hook 'before-save-hook 'gofmt-before-save)
 (add-hook 'go-mode-hook 'company-mode)
 (add-hook 'go-mode-hook (lambda ()
