@@ -33,6 +33,7 @@
 		   magit
 		   haskell-mode
 		   go-mode
+		   go-rename
 		   go-autocomplete
 		   company-go
 		   monokai-theme
@@ -78,6 +79,9 @@
 ;;; activate, otherwise, auto-complete will
 (ac-set-trigger-key "TAB")
 (ac-set-trigger-key "<tab>")
+
+;;; neotree
+(global-set-key [f8] 'neotree-toggle)
 
 ;;; golang
 (require 'go-autocomplete)
