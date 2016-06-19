@@ -32,6 +32,7 @@
 		   tagedit
 		   magit
 		   haskell-mode
+		   intero
 		   go-mode
 		   go-rename
 		   go-autocomplete
@@ -94,6 +95,9 @@
 
 (add-hook 'go-mode-hook '(lambda ()
 			   (local-set-key (kbd "C-c C-k") 'godoc)))
+
+;;; haskell
+(add-hook 'haskell-mode-hook 'intero-mode)
 
 (global-flycheck-mode)
 
