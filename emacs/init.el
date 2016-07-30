@@ -119,5 +119,6 @@
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 (global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region) ;
 
 (toggle-frame-fullscreen)
