@@ -36,20 +36,17 @@
 		   go-mode
 		   go-rename
 		   go-autocomplete
+		   gotest
 		   company-go
+		   powerline
 		   monokai-theme
 		   exec-path-from-shell
-		   color-theme-solarized))
+		   color-theme-solarized
+		   nyan-mode))
 
 (dolist (package packages)
   (unless (package-installed-p package)
     (package-install package)))
-
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "GOPATH")
-  (exec-path-from-shell-copy-env "GOROOT"))
-
 
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 (add-hook 'json-mode-hook (lambda () (js2-minor-mode-exit)))
@@ -59,11 +56,6 @@
 (add-hook 'js2-mode-hook 'ac-js2-mode)
 
 (setq js2-highlight-level 3)
-
-;;; themes
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(set-frame-parameter nil 'background-mode 'dark)
-(load-theme 'solarized t)
 
 ;;; yasnippet
 ;;; should be loaded before auto complete so that they can work together
@@ -124,3 +116,31 @@
 (global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region)
 
 (toggle-frame-fullscreen)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(mouse-wheel-progressive-speed nil)
+ '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control)))))
+ '(ns-command-modifier (quote meta))
+ '(ns-right-command-modifier (quote super)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;;; powerline
+(require 'powerline)
+(setq powerline-arrow-shape 'arrow)
+(powerline-default-theme)
+(nyan-mode 1)
+(nyan-toggle-wavy-trail)
+(nyan-start-animation)
+
+;;; themes
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(set-frame-parameter nil 'background-mode 'dark)
+(load-theme 'solarized t)
