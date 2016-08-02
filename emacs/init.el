@@ -83,6 +83,7 @@
 
 ;;; neotree
 (global-set-key [f8] 'neotree-toggle)
+(setq neo-window-width 40)
 
 ;;; golang
 (require 'go-autocomplete)
@@ -107,6 +108,7 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+(global-hl-line-mode)
 
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
