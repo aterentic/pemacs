@@ -14,6 +14,7 @@
 
 ;;; install required packages
 (defvar packages '(neotree
+		   move-text
 		   paredit
 		   helm
 		   auto-complete
@@ -131,6 +132,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(move-text-default-bindings)
 
 ;;; powerline
 (require 'powerline)
