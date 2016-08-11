@@ -1,2 +1,2 @@
-# penv
-Personal environments.
+# pemacs
+Personal emacs configuration.
