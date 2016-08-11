@@ -147,3 +147,6 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (set-frame-parameter nil 'background-mode 'dark)
 (load-theme 'solarized t)
+
+(if (file-exists-p "~/.emacs.d/default.el")
+    (load-file "~/.emacs.d/default.el"))
