@@ -27,6 +27,7 @@
 		   ac-js2
 		   markdown-mode
 		   clojure-mode
+		   elm-mode
 		   cider
 		   projectile
 		   rainbow-delimiters
