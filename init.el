@@ -23,6 +23,7 @@
 		   flycheck
 		   js2-mode
 		   js2-refactor
+                   jsx-mode
 		   json-mode
 		   ac-js2
 		   markdown-mode
