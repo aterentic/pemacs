@@ -15,6 +15,7 @@
 ;;; install required packages
 (defvar packages '(neotree
 		   move-text
+		   uuidgen
 		   paredit
 		   helm
 		   auto-complete
@@ -39,6 +40,7 @@
 		   go-mode
 		   go-rename
 		   go-autocomplete
+                   go-direx
 		   gotest
 		   company-go
 		   powerline
@@ -139,7 +141,10 @@
  '(mouse-wheel-progressive-speed nil)
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control)))))
  '(ns-command-modifier (quote meta))
- '(ns-right-command-modifier (quote super)))
+ '(ns-right-command-modifier (quote super))
+ '(package-selected-packages
+   (quote
+    (go-direx uuidgen erc highlight-tail web-mode zone-matrix tagedit rainbow-delimiters projectile powerline paredit nyan-mode neotree move-text monokai-theme markdown-mode magit json-mode js2-refactor intero helm gotest go-rename go-autocomplete exec-path-from-shell elm-mode company-go color-theme-solarized cider ac-js2))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
