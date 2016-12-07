@@ -4,3 +4,5 @@ auto-save-list
 bookmarks
 elpa
 ido.last
+eshell/
+/network-security.data

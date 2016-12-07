@@ -22,6 +22,7 @@
 		   company
 		   yasnippet
 		   flycheck
+		   org-present
 		   js2-mode
 		   js2-refactor
                    web-mode
@@ -148,12 +149,6 @@
  '(package-selected-packages
    (quote
     (zone-sl zone-nyan zone-rainbow go-direx uuidgen erc highlight-tail web-mode zone-matrix tagedit rainbow-delimiters projectile powerline paredit nyan-mode neotree move-text monokai-theme markdown-mode magit json-mode js2-refactor intero helm gotest go-rename go-autocomplete exec-path-from-shell elm-mode company-go color-theme-solarized cider ac-js2))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 (move-text-default-bindings)
 
@@ -170,6 +165,7 @@
 (set-frame-parameter nil 'background-mode 'dark)
 (load-theme 'solarized t)
 
+(require 'zone)
 (zone-when-idle 60)
 
 (if (file-exists-p "~/.emacs.d/default.el")
