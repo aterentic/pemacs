@@ -42,6 +42,7 @@
 		   go-rename
 		   go-autocomplete
                    go-direx
+		   go-guru
 		   gotest
 		   company-go
 		   powerline
@@ -69,6 +70,8 @@
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
 
 (add-hook 'json-mode-hook (lambda () (js2-minor-mode-exit)))
+
+(flycheck-add-mode 'javascript-eslint 'web-mode)
 
 (add-hook 'js-mode-hook (lambda () (setq tab-width 4)))
 (add-hook 'js-mode-hook 'js2-minor-mode)
@@ -142,6 +145,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(grep-find-ignored-directories
+   (quote
+    ("SCCS" "RCS" "CVS" "MCVS" ".src" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "vendor")))
  '(mouse-wheel-progressive-speed nil)
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control)))))
  '(ns-command-modifier (quote meta))
@@ -170,3 +176,9 @@
 
 (if (file-exists-p "~/.emacs.d/default.el")
     (load-file "~/.emacs.d/default.el"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
