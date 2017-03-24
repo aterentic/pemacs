@@ -79,6 +79,11 @@
 (add-hook 'js2-mode-hook 'ac-js2-mode)
 
 (add-hook 'web-mode-hook (lambda () (setq tab-width 4)))
+(add-hook 'web-mode-hook
+      (lambda ()
+        (if (equal web-mode-content-type "javascript")
+            (web-mode-set-content-type "jsx")
+          (message "now set to: %s" web-mode-content-type))))
 
 (setq js2-highlight-level 3)
 
