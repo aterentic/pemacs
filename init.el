@@ -45,6 +45,7 @@
 		   go-guru
 		   gotest
 		   company-go
+		   yaml-mode
 		   powerline
 		   monokai-theme
 		   exec-path-from-shell
