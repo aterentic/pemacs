@@ -161,7 +161,7 @@
  '(ns-right-command-modifier (quote super))
  '(package-selected-packages
    (quote
-    (zone-sl zone-nyan zone-rainbow go-direx uuidgen erc highlight-tail web-mode zone-matrix tagedit rainbow-delimiters projectile powerline paredit nyan-mode neotree move-text monokai-theme markdown-mode magit json-mode js2-refactor intero helm gotest go-rename go-autocomplete exec-path-from-shell elm-mode company-go color-theme-solarized cider ac-js2))))
+    (zone-sl zone-nyan zone-rainbow go-direx uuidgen erc highlight-tail zone-matrix tagedit rainbow-delimiters powerline paredit nyan-mode move-text json-mode js2-refactor gotest go-rename go-autocomplete exec-path-from-shell company-go color-theme-solarized ac-js2))))
 
 (move-text-default-bindings)
 
@@ -180,6 +180,11 @@
 
 (require 'zone)
 (zone-when-idle 60)
+
+;;; tidal
+(add-to-list 'load-path "~/.emacs.d/tidal")
+(require 'haskell-mode)
+(require 'tidal)
 
 (if (file-exists-p "~/.emacs.d/default.el")
     (load-file "~/.emacs.d/default.el"))
