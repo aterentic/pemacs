@@ -37,6 +37,7 @@
 		   tagedit
 		   magit
 		   haskell-mode
+		   idris-mode
 		   intero
 		   go-mode
 		   go-rename
