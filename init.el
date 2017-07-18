@@ -76,11 +76,18 @@
 (require 'flycheck)
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 
+(require 'js2-refactor)
 (add-hook 'js-mode-hook (lambda () (setq tab-width 4)))
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
+(add-hook 'js2-mode-hook #'js2-refactor-mode)
+(js2r-add-keybindings-with-prefix "C-c C-m")
 
-(add-hook 'web-mode-hook (lambda () (setq tab-width 4)))
+(load-file "~/.emacs.d/prettier-js.el")
+
+(add-hook 'web-mode-hook (lambda ()
+			   (setq tab-width 4)
+			   (setq web-mode-code-indent-offset 2)))
 (add-hook 'web-mode-hook
       (lambda ()
         (if (equal web-mode-content-type "javascript")
@@ -88,6 +95,9 @@
           (message "now set to: %s" web-mode-content-type))))
 
 (setq js2-highlight-level 3)
+
+;;; magit
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ;;; yasnippet
 ;;; should be loaded before auto complete so that they can work together
