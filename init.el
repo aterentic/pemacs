@@ -54,7 +54,8 @@
 		   nyan-mode
 		   zone-nyan
 		   zone-sl
-		   zone-rainbow))
+		   zone-rainbow
+		   pdf-tools))
 
 (dolist (package packages)
   (unless (package-installed-p package)
