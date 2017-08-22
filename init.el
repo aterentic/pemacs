@@ -13,8 +13,7 @@
   (package-refresh-contents))
 
 ;;; install required packages
-(defvar packages '(neotree
-		   move-text
+(defvar packages '(move-text
 		   uuidgen
 		   paredit
 		   helm
@@ -115,10 +114,6 @@
 ;;; activate, otherwise, auto-complete will
 (ac-set-trigger-key "TAB")
 (ac-set-trigger-key "<tab>")
-
-;;; neotree
-(global-set-key [f8] 'neotree-toggle)
-(setq neo-window-width 40)
 
 ;;; golang
 (require 'go-autocomplete)
