@@ -27,6 +27,7 @@
                    web-mode
 		   json-mode
 		   ac-js2
+		   prettier-js
 		   markdown-mode
 		   clojure-mode
 		   elm-mode
@@ -83,7 +84,9 @@
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (js2r-add-keybindings-with-prefix "C-c C-m")
 
-(load-file "~/.emacs.d/prettier-js.el")
+(require 'prettier-js)
+(add-hook 'js2-mode-hook 'prettier-js-mode)
+(add-hook 'web-mode-hook 'prettier-js-mode)
 
 (add-hook 'web-mode-hook (lambda ()
 			   (setq tab-width 4)
