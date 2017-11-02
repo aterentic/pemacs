@@ -1,3 +1,13 @@
+;;; package --- init.el
+
+;; Author: Aleksandar Terentic
+
+;;; Commentary:
+
+;; Personal Emacs environment
+
+;;; Code:
+
 (require 'package)
 
 (setq package-archives
@@ -7,57 +17,57 @@
 	("marmalade" . "http://marmalade-repo.org/packages/")
 	("tromey" . "http://tromey.com/elpa/")))
 
+(defvar package-list '(move-text
+		       uuidgen
+		       paredit
+		       helm
+		       auto-complete
+		       company
+		       yasnippet
+		       flycheck
+		       org-present
+		       js2-mode
+		       js2-refactor
+		       web-mode
+		       json-mode
+		       ac-js2
+		       prettier-js
+		       markdown-mode
+		       clojure-mode
+		       elm-mode
+		       cider
+		       sonic-pi
+		       projectile
+		       rainbow-delimiters
+		       tagedit
+		       magit
+		       haskell-mode
+		       idris-mode
+		       intero
+		       go-mode
+		       go-rename
+		       go-autocomplete
+		       go-direx
+		       go-guru
+		       gotest
+		       company-go
+		       yaml-mode
+		       powerline
+		       monokai-theme
+		       exec-path-from-shell
+		       color-theme-solarized
+		       nyan-mode
+		       zone-nyan
+		       zone-sl
+		       zone-rainbow
+		       pdf-tools))
+
 (package-initialize)
 
-(when (not package-archive-contents)
+(unless package-archive-contents
   (package-refresh-contents))
 
-;;; install required packages
-(defvar packages '(move-text
-		   uuidgen
-		   paredit
-		   helm
-		   auto-complete
-		   company
-		   yasnippet
-		   flycheck
-		   org-present
-		   js2-mode
-		   js2-refactor
-                   web-mode
-		   json-mode
-		   ac-js2
-		   prettier-js
-		   markdown-mode
-		   clojure-mode
-		   elm-mode
-		   cider
-		   projectile
-		   rainbow-delimiters
-		   tagedit
-		   magit
-		   haskell-mode
-		   idris-mode
-		   intero
-		   go-mode
-		   go-rename
-		   go-autocomplete
-                   go-direx
-		   go-guru
-		   gotest
-		   company-go
-		   yaml-mode
-		   powerline
-		   monokai-theme
-		   exec-path-from-shell
-		   color-theme-solarized
-		   nyan-mode
-		   zone-nyan
-		   zone-sl
-		   zone-rainbow
-		   pdf-tools))
-
-(dolist (package packages)
+(dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
 
@@ -72,7 +82,7 @@
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
 
-(add-hook 'json-mode-hook (lambda () (js2-minor-mode-exit)))
+
 
 (require 'flycheck)
 (flycheck-add-mode 'javascript-eslint 'web-mode)
@@ -88,6 +98,7 @@
 (add-hook 'js2-mode-hook 'prettier-js-mode)
 (add-hook 'web-mode-hook 'prettier-js-mode)
 
+(require 'web-mode)
 (add-hook 'web-mode-hook (lambda ()
 			   (setq tab-width 4)
 			   (setq web-mode-code-indent-offset 2)))
@@ -120,6 +131,8 @@
 
 ;;; golang
 (require 'go-autocomplete)
+(require 'go-mode)
+(require 'company)
 (setq gofmt-command "goimports")
 (add-hook 'before-save-hook 'gofmt-before-save)
 (add-hook 'go-mode-hook 'company-mode)
@@ -143,6 +156,7 @@
 (scroll-bar-mode -1)
 (global-hl-line-mode)
 
+(require 'ido)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
@@ -177,7 +191,8 @@
 
 ;;; powerline
 (require 'powerline)
-(setq powerline-arrow-shape 'arrow)
+(require 'nyan-mode)
+;;(setq powerline-arrow-shape 'arrow)
 (powerline-default-theme)
 (nyan-mode 1)
 (nyan-toggle-wavy-trail)
@@ -191,10 +206,7 @@
 (require 'zone)
 (zone-when-idle 60)
 
-;;; tidal
-(add-to-list 'load-path "~/.emacs.d/tidal")
 (require 'haskell-mode)
-(require 'tidal)
 
 ;;; org
 (require 'org)
@@ -210,3 +222,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;;; init.el ends here
