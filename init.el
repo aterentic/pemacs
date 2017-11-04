@@ -72,17 +72,7 @@
     (package-install package)))
 
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
-
-
 
 (require 'flycheck)
 (flycheck-add-mode 'javascript-eslint 'web-mode)
@@ -213,6 +203,9 @@
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
+
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 (if (file-exists-p "~/.emacs.d/default.el")
     (load-file "~/.emacs.d/default.el"))
