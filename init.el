@@ -168,7 +168,7 @@
  ;; If there is more than one, they won't work right.
  '(grep-find-ignored-directories
    (quote
-    ("SCCS" "RCS" "CVS" "MCVS" ".src" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "vendor" "node_modules")))
+    (".git" "vendor" "node_modules")))
  '(mouse-wheel-progressive-speed nil)
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 1) ((control)))))
  '(ns-command-modifier (quote meta))
