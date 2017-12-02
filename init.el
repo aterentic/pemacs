@@ -207,6 +207,8 @@
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
+(desktop-save-mode 1)
+
 (if (file-exists-p "~/.emacs.d/default.el")
     (load-file "~/.emacs.d/default.el"))
 (custom-set-faces
