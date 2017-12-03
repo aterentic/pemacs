@@ -60,7 +60,8 @@
 		       zone-nyan
 		       zone-sl
 		       zone-rainbow
-		       pdf-tools))
+		       pdf-tools
+		       htmlize))
 
 (package-initialize)
 
