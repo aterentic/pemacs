@@ -10,3 +10,5 @@ tutorial/
 url/
 /projectile-bookmarks.eld
 /*~
+/.emacs.desktop
+/.emacs.desktop.lock
