@@ -26,6 +26,7 @@
 		       yasnippet
 		       flycheck
 		       org-present
+		       csv-mode
 		       js2-mode
 		       js2-refactor
 		       web-mode
@@ -50,6 +51,7 @@
 		       go-direx
 		       go-guru
 		       gotest
+		       godoctor
 		       company-go
 		       yaml-mode
 		       powerline
