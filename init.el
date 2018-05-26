@@ -25,7 +25,6 @@
 		       company
 		       yasnippet
 		       flycheck
-		       org-present
 		       csv-mode
 		       js2-mode
 		       js2-refactor
@@ -34,6 +33,7 @@
 		       ac-js2
 		       prettier-js
 		       markdown-mode
+		       org-tree-slide
 		       clojure-mode
 		       elm-mode
 		       cider
