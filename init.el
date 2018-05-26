@@ -148,6 +148,7 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (global-hl-line-mode)
+(helm-mode 1)
 
 (require 'ido)
 (setq ido-enable-flex-matching t)
@@ -162,6 +163,7 @@
 
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region)
+(global-set-key (kbd "M-x") 'helm-M-x)
 
 (toggle-frame-fullscreen)
 (custom-set-variables
