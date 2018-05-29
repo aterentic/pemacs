@@ -103,6 +103,8 @@
 
 (setq js2-highlight-level 3)
 
+(display-time-mode 1)
+
 ;;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
 
