@@ -36,6 +36,7 @@
 		       org-tree-slide
 		       clojure-mode
 		       elm-mode
+		       flycheck-elm
 		       cider
 		       sonic-pi
 		       projectile
@@ -204,6 +205,9 @@
 (zone-when-idle 60)
 
 (require 'haskell-mode)
+
+(eval-after-load 'flycheck
+  '(flycheck-elm-setup))
 
 ;;; org
 (require 'org)
