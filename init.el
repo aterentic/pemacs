@@ -30,6 +30,7 @@
 		       js2-refactor
 		       web-mode
 		       json-mode
+		       docker-mode
 		       pocket-reader
 		       ac-js2
 		       prettier-js
