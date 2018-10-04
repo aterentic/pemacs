@@ -216,6 +216,10 @@
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
+(setq org-clock-persist 'history)
+(org-clock-persistence-insinuate)
+(add-to-list 'org-agenda-custom-commands
+             '("k" "Kupovina" tags "kupovina/TODO"))
 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
