@@ -211,13 +211,20 @@
 (eval-after-load 'flycheck
   '(flycheck-elm-setup))
 
+(server-mode)
+
 ;;; org
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . nil)
+   (shell . t)))
 (setq org-clock-persist 'history)
 (org-clock-persistence-insinuate)
+(require 'org-agenda)
 (add-to-list 'org-agenda-custom-commands
              '("k" "Kupovina" tags "kupovina/TODO"))
 
