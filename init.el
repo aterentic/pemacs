@@ -41,6 +41,7 @@
 		       flycheck-elm
 		       cider
 		       sonic-pi
+		       tidal
 		       projectile
 		       rainbow-delimiters
 		       tagedit
@@ -143,6 +144,8 @@
 
 ;;; haskell
 (add-hook 'haskell-mode-hook 'intero-mode)
+(require 'haskell-mode)
+(require 'tidal)
 
 (global-flycheck-mode)
 
