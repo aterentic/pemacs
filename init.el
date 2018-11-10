@@ -104,7 +104,12 @@
 (setq safe-local-variable-values
       '((elm-package-json . "elm.json")
 	(elm-compile-arguments "--output=elm.js" "--debug")
-	(elm-reactor-arguments "--port" "8000")))
+	(elm-interactive-command . ("elm" "repl"))
+	(elm-reactor-arguments . ("--port" "8000"))
+	(elm-compile-command . ("elm" "make"))
+	(elm-package-command . ("elm" "package"))
+	(elm-reactor-command . ("elm" "reactor"))))
+
 (eval-after-load 'flycheck '(flycheck-elm-setup))
 
 (require 'prettier-js)
