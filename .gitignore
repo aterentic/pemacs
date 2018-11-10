@@ -12,3 +12,4 @@ url/
 /*~
 /.emacs.desktop
 /.emacs.desktop.lock
+/org-clock-save.el
