@@ -53,7 +53,8 @@
 ;;; ido
 (require 'ido)
 (setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
+;;; Disabled due to incopatibility with helm-mode
+;;;(setq ido-everywhere t)
 (ido-mode 1)
 
 ;;; helm
