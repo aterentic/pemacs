@@ -28,7 +28,7 @@
 	      rainbow-delimiters tagedit magit haskell-mode idris-mode intero
 	      go-mode go-rename go-autocomplete go-direx go-guru gotest godoctor
 	      company-go yaml-mode powerline exec-path-from-shell color-theme-solarized
-	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize))
+	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace))
 
 (package-initialize)
 
@@ -50,16 +50,12 @@
 (add-to-list 'org-agenda-custom-commands
              '("k" "Kupovina" tags "kupovina/TODO"))
 
-;;; ido
-(require 'ido)
-(setq ido-enable-flex-matching t)
-;;; Disabled due to incopatibility with helm-mode
-;;;(setq ido-everywhere t)
-(ido-mode 1)
-
 ;;; helm
+(require 'helm-config)
 (helm-mode 1)
-(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "M-x") #'helm-M-x)
+(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
 
 ;;; yasnippet should be loaded before auto complete so that they can work together
 (require 'yasnippet)
@@ -116,6 +112,8 @@
 (require 'prettier-js)
 (add-hook 'js2-mode-hook 'prettier-js-mode)
 (add-hook 'web-mode-hook 'prettier-js-mode)
+
+(flycheck-add-mode 'javascript-eslint 'web-mode)
 
 (require 'js2-refactor)
 (add-hook 'js-mode-hook (lambda () (setq tab-width 4)))
