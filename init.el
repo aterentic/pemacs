@@ -57,6 +57,9 @@
 (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") #'helm-find-files)
 
+;;; enable subword-mode for all programming langs
+(add-hook 'prog-mode-hook 'subword-mode)
+
 ;;; yasnippet should be loaded before auto complete so that they can work together
 (require 'yasnippet)
 (yas-global-mode 1)
