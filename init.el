@@ -28,7 +28,7 @@
 	      rainbow-delimiters tagedit magit haskell-mode idris-mode intero
 	      go-mode go-rename go-autocomplete go-direx go-guru gotest godoctor
 	      company-go yaml-mode powerline exec-path-from-shell color-theme-solarized
-	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace))
+	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme))
 
 (package-initialize)
 
@@ -146,11 +146,6 @@
 (setq zone-programs
       (vconcat zone-programs [zone-nyan zone-sl zone-rainbow]))
 
-;;; themes
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(set-frame-parameter nil 'background-mode 'dark)
-(load-theme 'solarized t)
-
 ;;; powerline
 (require 'powerline)
 (require 'nyan-mode)
@@ -159,6 +154,11 @@
 (nyan-mode 1)
 (nyan-toggle-wavy-trail)
 (nyan-start-animation)
+
+;;; themes
+;;;(set-frame-parameter nil 'background-mode 'dark)
+;;;(load-theme 'solarized t)
+(load-theme 'material)
 
 (setq inhibit-splash-screen t initial-scratch-message nil)
 (global-set-key (kbd "M-o") 'other-window)
