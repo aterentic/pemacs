@@ -60,22 +60,16 @@
 ;;; enable subword-mode for all programming langs
 (add-hook 'prog-mode-hook 'subword-mode)
 
-;;; yasnippet should be loaded before auto complete so that they can work together
+;;; yasnippet
 (require 'yasnippet)
 (yas-global-mode 1)
 
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+;;; auto-complete
 (ac-config-default)
-;;; set the trigger key so that it can work together with yasnippet on tab key,
-;;; if the word exists in yasnippet, pressing tab will cause yasnippet to
-;;; activate, otherwise, auto-complete will
-(ac-set-trigger-key "TAB")
-(ac-set-trigger-key "<tab>")
 
 (require 'company)
 
-(require 'flycheck)
+;;; flycheck
 (global-flycheck-mode)
 
 ;;; magit
@@ -89,7 +83,7 @@
 
 (require 'tidal)
 
-;;; golang
+;;; go-mode
 (require 'go-mode)
 (require 'go-autocomplete)
 (setq gofmt-command "goimports")
@@ -103,14 +97,7 @@
 			  (company-mode)))
 
 ;;; elm-mode
-(setq safe-local-variable-values
-      '((elm-package-json . "elm.json")
-	(elm-compile-arguments "--output=elm.js" "--debug")
-	(elm-interactive-command . ("elm" "repl"))
-	(elm-reactor-arguments . ("--port" "8000"))
-	(elm-compile-command . ("elm" "make"))
-	(elm-package-command . ("elm" "package"))
-	(elm-reactor-command . ("elm" "reactor"))))
+(add-to-list 'company-backends 'company-elm)
 
 (eval-after-load 'flycheck '(flycheck-elm-setup))
 
