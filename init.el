@@ -105,8 +105,6 @@
 (add-hook 'js2-mode-hook 'prettier-js-mode)
 (add-hook 'web-mode-hook 'prettier-js-mode)
 
-(flycheck-add-mode 'javascript-eslint 'web-mode)
-
 (require 'js2-refactor)
 (add-hook 'js-mode-hook (lambda () (setq tab-width 4)))
 (add-hook 'js-mode-hook 'js2-minor-mode)
@@ -136,15 +134,12 @@
 ;;; powerline
 (require 'powerline)
 (require 'nyan-mode)
-(setq powerline-arrow-shape 'arrow)
 (powerline-default-theme)
 (nyan-mode 1)
 (nyan-toggle-wavy-trail)
 (nyan-start-animation)
 
 ;;; themes
-;;;(set-frame-parameter nil 'background-mode 'dark)
-;;;(load-theme 'solarized t)
 (load-theme 'material)
 
 (setq inhibit-splash-screen t initial-scratch-message nil)
