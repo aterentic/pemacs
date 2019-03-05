@@ -140,7 +140,7 @@
 (nyan-start-animation)
 
 ;;; themes
-(load-theme 'material)
+(load-theme 'material t)
 
 (setq inhibit-splash-screen t initial-scratch-message nil)
 (global-set-key (kbd "M-o") 'other-window)
