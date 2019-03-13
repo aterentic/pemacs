@@ -21,12 +21,12 @@
 	("tromey" . "http://tromey.com/elpa/")))
 
 (defvar package-list
-  '(move-text uuidgen paredit helm auto-complete company yasnippet flycheck
+  '(move-text uuidgen paredit helm company yasnippet flycheck
 	      csv-mode js2-mode js2-refactor web-mode json-mode dockerfile-mode
 	      pocket-reader ac-js2 prettier-js markdown-mode org-tree-slide
 	      clojure-mode elm-mode flycheck-elm cider sonic-pi tidal projectile
 	      rainbow-delimiters tagedit magit haskell-mode idris-mode intero
-	      go-mode go-rename go-autocomplete go-direx go-guru gotest godoctor
+	      go-mode go-rename go-direx go-guru gotest godoctor
 	      company-go yaml-mode powerline exec-path-from-shell color-theme-solarized
 	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme))
 
@@ -64,10 +64,11 @@
 (require 'yasnippet)
 (yas-global-mode 1)
 
-;;; auto-complete
-(ac-config-default)
-
+;;; company
 (require 'company)
+(require 'company-go)
+(add-to-list 'company-backends 'company-go)
+(add-to-list 'company-backends 'company-elm)
 
 ;;; flycheck
 (global-flycheck-mode)
@@ -85,20 +86,14 @@
 
 ;;; go-mode
 (require 'go-mode)
-(require 'go-autocomplete)
 (setq gofmt-command "goimports")
-(add-hook 'before-save-hook 'gofmt-before-save)
 (add-hook 'go-mode-hook 'company-mode)
+(add-hook 'before-save-hook 'gofmt-before-save)
 (add-hook 'go-mode-hook (lambda ()
 			  (local-set-key (kbd "C-c C-k") 'godoc)
 			  (local-set-key (kbd "C-c C-b") 'pop-tag-mark)))
-(add-hook 'go-mode-hook (lambda ()
-			  (set (make-local-variable 'company-backends) '(company-go))
-			  (company-mode)))
 
 ;;; elm-mode
-(add-to-list 'company-backends 'company-elm)
-
 (eval-after-load 'flycheck '(flycheck-elm-setup))
 
 (require 'prettier-js)
