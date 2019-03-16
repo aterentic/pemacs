@@ -39,16 +39,8 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-(require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-(org-babel-do-load-languages 'org-babel-load-languages '((emacs-lisp . nil) (shell . t)))
-(setq org-clock-persist 'history)
-(org-clock-persistence-insinuate)
-(require 'org-agenda)
-(add-to-list 'org-agenda-custom-commands
-             '("k" "Kupovina" tags "kupovina/TODO"))
+;;; enable subword-mode for all programming langs
+(add-hook 'prog-mode-hook 'subword-mode)
 
 ;;; helm
 (require 'helm-config)
@@ -57,18 +49,9 @@
 (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") #'helm-find-files)
 
-;;; enable subword-mode for all programming langs
-(add-hook 'prog-mode-hook 'subword-mode)
-
 ;;; yasnippet
 (require 'yasnippet)
 (yas-global-mode 1)
-
-;;; company
-(require 'company)
-(require 'company-go)
-(add-to-list 'company-backends 'company-go)
-(add-to-list 'company-backends 'company-elm)
 
 ;;; flycheck
 (global-flycheck-mode)
@@ -76,26 +59,31 @@
 ;;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
 
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+;;; org
+(require 'org)
+(require 'org-agenda)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
 
-(require 'haskell-mode)
-(add-hook 'haskell-mode-hook 'intero-mode)
-
-(require 'tidal)
-
-;;; go-mode
+;;; go
 (require 'go-mode)
 (setq gofmt-command "goimports")
-(add-hook 'go-mode-hook 'company-mode)
 (add-hook 'before-save-hook 'gofmt-before-save)
 (add-hook 'go-mode-hook (lambda ()
 			  (local-set-key (kbd "C-c C-k") 'godoc)
 			  (local-set-key (kbd "C-c C-b") 'pop-tag-mark)))
 
-;;; elm-mode
+;;; elm
 (eval-after-load 'flycheck '(flycheck-elm-setup))
 
+;;; haskell
+(require 'haskell-mode)
+(add-hook 'haskell-mode-hook 'intero-mode)
+
+(require 'tidal)
+
+;;; javascript
 (require 'prettier-js)
 (add-hook 'js2-mode-hook 'prettier-js-mode)
 (add-hook 'web-mode-hook 'prettier-js-mode)
@@ -119,8 +107,14 @@
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 
-(move-text-default-bindings)
+;;; company
+(require 'company)
+(require 'company-go)
+(add-to-list 'company-backends 'company-go)
+(add-to-list 'company-backends 'company-elm)
+(add-hook 'after-init-hook 'global-company-mode)
 
+;;; zone
 (require 'zone)
 (zone-when-idle 180)
 (setq zone-programs
@@ -136,6 +130,11 @@
 
 ;;; themes
 (load-theme 'material t)
+
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+(move-text-default-bindings)
 
 (setq inhibit-splash-screen t initial-scratch-message nil)
 (global-set-key (kbd "M-o") 'other-window)
