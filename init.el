@@ -26,7 +26,7 @@
 	      pocket-reader ac-js2 prettier-js markdown-mode org-tree-slide
 	      clojure-mode elm-mode flycheck-elm cider sonic-pi tidal projectile
 	      rainbow-delimiters tagedit magit haskell-mode idris-mode intero
-	      go-mode go-rename go-direx go-guru gotest godoctor
+	      go-mode go-rename go-direx go-guru gotest godoctor org-super-agenda
 	      company-go yaml-mode powerline exec-path-from-shell color-theme-solarized
 	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme))
 
