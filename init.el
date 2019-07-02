@@ -28,7 +28,8 @@
 	      rainbow-delimiters tagedit magit haskell-mode idris-mode intero
 	      go-mode go-rename go-direx go-guru gotest godoctor org-super-agenda
 	      company-go yaml-mode powerline exec-path-from-shell color-theme-solarized
-	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme))
+	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme
+	      go-eldoc))
 
 (package-initialize)
 
@@ -68,12 +69,20 @@
 
 ;;; go
 (require 'go-mode)
-(setq gofmt-command "goimports")
-(add-hook 'before-save-hook 'gofmt-before-save)
-(add-hook 'go-mode-hook (lambda ()
-			  (local-set-key (kbd "C-c C-k") 'godoc)
-			  (local-set-key (kbd "C-c C-b") 'pop-tag-mark)))
+(defun go-mode-setup ()
+  (linum-mode 1)
+  (go-eldoc-setup)
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "C-c C-k") 'godoc)
+  (local-set-key (kbd "C-c C-b") 'pop-tag-mark)
+  (local-set-key (kbd "C-c C-c") 'compile))
+  (setq compile-command "echo Building...; go build -v; echo Testing...; go test -v; echo Linter...; golint")
+  (setq compilation-read-command nil)
 
+(add-hook 'go-mode-hook 'go-mode-setup)
+  
 ;;; elm
 (eval-after-load 'flycheck '(flycheck-elm-setup))
 
@@ -155,3 +164,14 @@
 (server-mode)
 
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+ '(package-selected-packages
+   (quote
+    (htmlize pdf-tools zone-rainbow zone-sl zone-nyan nyan-mode color-theme-solarized exec-path-from-shell powerline yaml-mode godoctor gotest go-guru go-direx go-rename go-mode intero idris-mode magit tagedit rainbow-delimiters projectile tidal sonic-pi cider flycheck-elm elm-mode clojure-mode org-tree-slide markdown-mode prettier-js ac-js2 pocket-reader dockerfile-mode json-mode web-mode js2-refactor js2-mode csv-mode flycheck yasnippet company company-go helm paredit uuidgen move-text))))
