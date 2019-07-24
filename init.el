@@ -29,7 +29,7 @@
 	      go-mode go-rename go-direx go-guru gotest godoctor org-super-agenda
 	      company-go yaml-mode powerline exec-path-from-shell color-theme-solarized
 	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme
-	      go-eldoc))
+	      go-eldoc highlight-indentation))
 
 (package-initialize)
 
@@ -42,6 +42,10 @@
 
 ;;; enable subword-mode for all programming langs
 (add-hook 'prog-mode-hook 'subword-mode)
+
+;;; prettify-symbols-mode
+(setq prettify-symbols-unprettify-at-point t)
+(global-prettify-symbols-mode +1)
 
 ;;; helm
 (require 'helm-config)
@@ -78,7 +82,7 @@
   (local-set-key (kbd "C-c C-k") 'godoc)
   (local-set-key (kbd "C-c C-b") 'pop-tag-mark)
   (local-set-key (kbd "C-c C-c") 'compile))
-  (setq compile-command "echo Building...; go build -v; echo Testing...; go test -v; echo Linter...; golint")
+  (setq compile-command "echo Building...; go build -v -o /dev/null; echo Testing...; go test -v; echo Linter...; golint")
   (setq compilation-read-command nil)
 
 (add-hook 'go-mode-hook 'go-mode-setup)
