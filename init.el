@@ -29,7 +29,7 @@
 	      go-mode go-rename go-direx go-guru gotest godoctor org-super-agenda
 	      company-go yaml-mode powerline exec-path-from-shell color-theme-solarized
 	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme
-	      go-eldoc highlight-indentation))
+	      go-eldoc flycheck-golangci-lint highlight-indentation elpy))
 
 (package-initialize)
 
@@ -81,10 +81,10 @@
   (local-set-key (kbd "M-.") 'godef-jump)
   (local-set-key (kbd "C-c C-k") 'godoc)
   (local-set-key (kbd "C-c C-b") 'pop-tag-mark)
-  (local-set-key (kbd "C-c C-c") 'compile))
+  (local-set-key (kbd "C-c C-c") 'compile)
   (setq compile-command "echo Building...; go build -v -o /dev/null; echo Testing...; go test -v; echo Linter...; golint")
   (setq compilation-read-command nil)
-
+  (add-hook 'flycheck-mode-hook 'flycheck-golangci-lint-setup))
 (add-hook 'go-mode-hook 'go-mode-setup)
   
 ;;; elm
@@ -119,6 +119,9 @@
           (message "now set to: %s" web-mode-content-type))))
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
 (flycheck-add-mode 'javascript-eslint 'web-mode)
+
+;;; python
+(elpy-enable)
 
 ;;; company
 (require 'company)
