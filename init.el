@@ -29,7 +29,7 @@
 	      go-mode go-rename go-direx go-guru gotest godoctor org-super-agenda
 	      company-go yaml-mode powerline exec-path-from-shell color-theme-solarized
 	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme
-	      go-eldoc flycheck-golangci-lint highlight-indentation elpy))
+	      go-eldoc flycheck-golangci-lint highlight-indentation elpy py-autopep8))
 
 (package-initialize)
 
@@ -122,6 +122,13 @@
 
 ;;; python
 (elpy-enable)
+(setq elpy-rpc-python-command "python3")
+(elpy-use-ipython "python3")
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 ;;; company
 (require 'company)
