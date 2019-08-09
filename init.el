@@ -123,7 +123,9 @@
 ;;; python
 (elpy-enable)
 (setq elpy-rpc-python-command "python3")
-(elpy-use-ipython "python3")
+(setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
+(setenv "IPY_TEST_SIMPLE_PROMPT" "1")
+(setq python-shell-interpreter "ipython3" python-shell-interpreter-args "-i")
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
