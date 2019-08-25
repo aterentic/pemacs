@@ -29,7 +29,7 @@
 	      go-mode go-rename go-direx go-guru gotest godoctor org-super-agenda
 	      company-go yaml-mode powerline exec-path-from-shell color-theme-solarized
 	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme
-	      go-eldoc flycheck-golangci-lint highlight-indentation elpy py-autopep8))
+	      go-eldoc flycheck-golangci-lint highlight-indentation elpy py-autopep8 dedicated))
 
 (package-initialize)
 
