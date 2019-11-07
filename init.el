@@ -8,25 +8,63 @@
 
 ;;; Code:
 
-(setq user-full-name    "Aleksandar Terentić")
-(setq user-mail-address "aterentic@gmail.com")
+(setq user-full-name    "Aleksandar Terentić"
+      user-mail-address "aterentic@gmail.com")
 
-(setq package-archives
-      '(("gnu" . "http://elpa.gnu.org/packages/")
-	("melpa-stable" . "http://stable.melpa.org/packages/") ; picks up only tags from github.com
-	("melpa" . "http://melpa.milkbox.net/packages/")))     ; picks up latest code from master
+(require 'package)
+
+;; stable picks up only tags from github.com
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (package-initialize)
 
+(unless package-archive-contents
+  (package-refresh-contents))
+
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
   (package-install 'use-package))
 
 (eval-when-compile
   (require 'use-package))
 
+(setq large-file-warning-threshold 100000000)
+
+;; disable the annoying bell ring
+(setq ring-bell-function 'ignore)
+
+;; disable startup screen
+(setq inhibit-startup-screen t)
+
+;; nice scrolling
+(setq scroll-margin 0
+      scroll-conservatively 100000
+      scroll-preserve-screen-position 1)
+
+;; mode line settings
+(line-number-mode t)
+(column-number-mode t)
+(size-indication-mode t)
+
+;; delete the selection with a keypress
+(delete-selection-mode t)
+
+;; enable y/n answers
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; highlight the current line
+(use-package hl-line
+  :config
+  (global-hl-line-mode t))
+
+(use-package move-text
+  :ensure t
+  :bind
+  (([(meta shift up)] . move-text-up)
+   ([(meta shift down)] . move-text-down)))
+
 (defvar package-list
-  '(move-text uuidgen paredit helm company yasnippet flycheck
+  '(uuidgen paredit helm company yasnippet flycheck
 	      csv-mode js2-mode js2-refactor web-mode json-mode dockerfile-mode
 	      pocket-reader ac-js2 prettier-js markdown-mode org-tree-slide
 	      clojure-mode elm-mode flycheck-elm cider sonic-pi tidal projectile
@@ -36,12 +74,10 @@
 	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme
 	      go-eldoc flycheck-golangci-lint highlight-indentation elpy py-autopep8 dedicated))
 
-(unless package-archive-contents
-  (package-refresh-contents))
-
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
+
 
 ;;; enable subword-mode for all programming langs
 (add-hook 'prog-mode-hook 'subword-mode)
@@ -162,15 +198,11 @@
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
-(move-text-default-bindings)
-
-(setq inhibit-splash-screen t initial-scratch-message nil)
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-(global-hl-line-mode)
 (display-time-mode 1)
 (desktop-save-mode 1)
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
