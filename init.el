@@ -8,17 +8,22 @@
 
 ;;; Code:
 
-(setq user-full-name "Aleksandar Terentić")
+(setq user-full-name    "Aleksandar Terentić")
 (setq user-mail-address "aterentic@gmail.com")
-
-(require 'package)
 
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
-	("melpa-stable" . "http://stable.melpa.org/packages/")
-	("melpa" . "http://melpa.milkbox.net/packages/")
-	("marmalade" . "http://marmalade-repo.org/packages/")
-	("tromey" . "http://tromey.com/elpa/")))
+	("melpa-stable" . "http://stable.melpa.org/packages/") ; picks up only tags from github.com
+	("melpa" . "http://melpa.milkbox.net/packages/")))     ; picks up latest code from master
+
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
 
 (defvar package-list
   '(move-text uuidgen paredit helm company yasnippet flycheck
@@ -30,8 +35,6 @@
 	      company-go yaml-mode powerline exec-path-from-shell color-theme-solarized
 	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme
 	      go-eldoc flycheck-golangci-lint highlight-indentation elpy py-autopep8 dedicated))
-
-(package-initialize)
 
 (unless package-archive-contents
   (package-refresh-contents))
@@ -45,7 +48,7 @@
 
 ;;; prettify-symbols-mode
 (setq prettify-symbols-unprettify-at-point t)
-(global-prettify-symbols-mode +1)
+(global-prettify-symbols-mode 1)
 
 ;;; helm
 (require 'helm-config)
