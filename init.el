@@ -70,53 +70,52 @@
 (eval-when-compile
   (require 'use-package))
 
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+
+;;; themes: color-theme-solarized, material-theme
+(use-package material-theme
+  :config
+  (load-theme 'material t))
+
 ;; highlight the current line
 (use-package hl-line
-  :ensure t
   :config
   (global-hl-line-mode t))
 
 (use-package move-text
-  :ensure t
   :bind
   (([(meta shift up)] . move-text-up)
    ([(meta shift down)] . move-text-down)))
 
-(use-package uuidgen
-  :ensure t)
+(use-package uuidgen)
 
-(use-package paredit
-  :ensure t)
+(use-package paredit)
 
 (use-package helm
-  :ensure t
   :bind
   (("M-x" . helm-M-x)
    ("C-x r b" . helm-filtered-bookmarks)
-   ("C-x C-f" . helm-find-files)))
-
-;; start helm-mode
-(use-package helm-mode
+   ("C-x C-f" . helm-find-files))
   :config
   (helm-mode 1))
+
+(use-package tidal)
 
 (defvar package-list
   '(company yasnippet flycheck
 	      csv-mode js2-mode js2-refactor web-mode json-mode dockerfile-mode
 	      pocket-reader ac-js2 prettier-js markdown-mode org-tree-slide
-	      clojure-mode elm-mode flycheck-elm cider sonic-pi tidal projectile
+	      clojure-mode elm-mode flycheck-elm cider sonic-pi projectile
 	      rainbow-delimiters tagedit magit haskell-mode idris-mode intero
 	      go-mode go-rename go-direx go-guru gotest godoctor org-super-agenda
-	      company-go yaml-mode powerline exec-path-from-shell color-theme-solarized
-	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace material-theme
+	      company-go yaml-mode powerline exec-path-from-shell
+	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace
 	      go-eldoc flycheck-golangci-lint highlight-indentation elpy py-autopep8 dedicated))
 
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
-
-
-
 
 ;;; yasnippet
 (require 'yasnippet)
@@ -157,8 +156,6 @@
 ;;; haskell
 (require 'haskell-mode)
 (add-hook 'haskell-mode-hook 'intero-mode)
-
-(require 'tidal)
 
 ;;; javascript
 (require 'prettier-js)
@@ -216,9 +213,6 @@
 (nyan-mode 1)
 (nyan-toggle-wavy-trail)
 (nyan-start-animation)
-
-;;; themes
-(load-theme 'material t)
 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
