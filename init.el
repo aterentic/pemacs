@@ -13,6 +13,46 @@
 (setq user-full-name    "Aleksandar Terentić"
       user-mail-address "aterentic@gmail.com")
 
+;; disable the annoying bell ring
+(setq ring-bell-function 'ignore)
+
+;; disable startup screen
+(setq inhibit-startup-screen t)
+
+(toggle-frame-fullscreen)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+
+(setq large-file-warning-threshold 100000000)
+
+;; nice scrolling
+(setq scroll-margin 0
+      scroll-conservatively 100000
+      scroll-preserve-screen-position 1)
+
+;; mode line settings
+(display-time-mode t)
+(line-number-mode t)
+(column-number-mode t)
+(size-indication-mode t)
+
+;; enable y/n answers
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; delete the selection with a keypress
+(delete-selection-mode t)
+
+;;; enable subword-mode for all programming langs
+(add-hook 'prog-mode-hook 'subword-mode)
+
+;;; prettify-symbols-mode
+(setq prettify-symbols-unprettify-at-point t)
+(global-prettify-symbols-mode 1)
+
+(desktop-save-mode 1)
+(server-mode)
+
 (require 'package)
 
 ;; stable picks up only tags from github.com
@@ -29,30 +69,6 @@
 
 (eval-when-compile
   (require 'use-package))
-
-(setq large-file-warning-threshold 100000000)
-
-;; disable the annoying bell ring
-(setq ring-bell-function 'ignore)
-
-;; disable startup screen
-(setq inhibit-startup-screen t)
-
-;; nice scrolling
-(setq scroll-margin 0
-      scroll-conservatively 100000
-      scroll-preserve-screen-position 1)
-
-;; mode line settings
-(line-number-mode t)
-(column-number-mode t)
-(size-indication-mode t)
-
-;; delete the selection with a keypress
-(delete-selection-mode t)
-
-;; enable y/n answers
-(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; highlight the current line
 (use-package hl-line
@@ -100,12 +116,6 @@
     (package-install package)))
 
 
-;;; enable subword-mode for all programming langs
-(add-hook 'prog-mode-hook 'subword-mode)
-
-;;; prettify-symbols-mode
-(setq prettify-symbols-unprettify-at-point t)
-(global-prettify-symbols-mode 1)
 
 
 ;;; yasnippet
@@ -215,19 +225,12 @@
 
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(display-time-mode 1)
-(desktop-save-mode 1)
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 (setq grep-find-ignored-directories '(".git" "vendor" "node_modules"))
 
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
 
-(toggle-frame-fullscreen)
-(server-mode)
 
 ;;; init.el ends here
 (custom-set-variables
