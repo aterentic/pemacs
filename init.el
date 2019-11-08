@@ -40,6 +40,9 @@
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+
 ;; delete the selection with a keypress
 (delete-selection-mode t)
 
@@ -49,6 +52,16 @@
 ;;; prettify-symbols-mode
 (setq prettify-symbols-unprettify-at-point t)
 (global-prettify-symbols-mode 1)
+
+(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region)
+
+;;; org-mode
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+(setq grep-find-ignored-directories '(".git" "vendor" "node_modules"))
 
 (desktop-save-mode 1)
 (server-mode)
@@ -102,13 +115,33 @@
 
 (use-package tidal)
 
+(use-package yasnippet
+  :config
+  (yas-global-mode 1))
+
+(use-package flycheck
+  :config
+  (global-flycheck-mode))
+
+(use-package magit
+  :bind
+  (("C-x g" . magit-status)))
+
+(use-package csv-mode)
+
+(use-package json-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.json$" . json-mode)))
+
+(use-package dockerfile-mode)
+(use-package dockerfile-mode)
+
 (defvar package-list
-  '(company yasnippet flycheck
-	      csv-mode js2-mode js2-refactor web-mode json-mode dockerfile-mode
+  '(company js2-mode js2-refactor web-mode
 	      pocket-reader ac-js2 prettier-js markdown-mode org-tree-slide
 	      clojure-mode elm-mode flycheck-elm cider sonic-pi projectile
-	      rainbow-delimiters tagedit magit haskell-mode idris-mode intero
-	      go-mode go-rename go-direx go-guru gotest godoctor org-super-agenda
+	      rainbow-delimiters tagedit haskell-mode idris-mode intero
+	      go-mode go-rename go-direx go-guru gotest godoctor
 	      company-go yaml-mode powerline exec-path-from-shell
 	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace
 	      go-eldoc flycheck-golangci-lint highlight-indentation elpy py-autopep8 dedicated))
@@ -116,23 +149,6 @@
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
-
-;;; yasnippet
-(require 'yasnippet)
-(yas-global-mode 1)
-
-;;; flycheck
-(global-flycheck-mode)
-
-;;; magit
-(global-set-key (kbd "C-x g") 'magit-status)
-
-;;; org
-(require 'org)
-(require 'org-agenda)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
 
 ;;; go
 (require 'go-mode)
@@ -169,15 +185,9 @@
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (js2r-add-keybindings-with-prefix "C-c C-m")
 (setq js2-highlight-level 3)
-(add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 
 (require 'web-mode)
 (add-hook 'web-mode-hook (lambda () (setq tab-width 4) (setq web-mode-code-indent-offset 2)))
-(add-hook 'web-mode-hook
-      (lambda ()
-        (if (equal web-mode-content-type "javascript")
-            (web-mode-set-content-type "jsx")
-          (message "now set to: %s" web-mode-content-type))))
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 
@@ -216,12 +226,6 @@
 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-
-(global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region)
-(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-(setq grep-find-ignored-directories '(".git" "vendor" "node_modules"))
 
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
 
