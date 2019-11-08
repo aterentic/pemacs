@@ -8,6 +8,8 @@
 
 ;;; Code:
 
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3") ; temporary
+
 (setq user-full-name    "Aleksandar Terentić"
       user-mail-address "aterentic@gmail.com")
 
@@ -54,6 +56,7 @@
 
 ;; highlight the current line
 (use-package hl-line
+  :ensure t
   :config
   (global-hl-line-mode t))
 
@@ -63,8 +66,26 @@
   (([(meta shift up)] . move-text-up)
    ([(meta shift down)] . move-text-down)))
 
+(use-package uuidgen
+  :ensure t)
+
+(use-package paredit
+  :ensure t)
+
+(use-package helm
+  :ensure t
+  :bind
+  (("M-x" . helm-M-x)
+   ("C-x r b" . helm-filtered-bookmarks)
+   ("C-x C-f" . helm-find-files)))
+
+;; start helm-mode
+(use-package helm-mode
+  :config
+  (helm-mode 1))
+
 (defvar package-list
-  '(uuidgen paredit helm company yasnippet flycheck
+  '(company yasnippet flycheck
 	      csv-mode js2-mode js2-refactor web-mode json-mode dockerfile-mode
 	      pocket-reader ac-js2 prettier-js markdown-mode org-tree-slide
 	      clojure-mode elm-mode flycheck-elm cider sonic-pi tidal projectile
@@ -86,12 +107,6 @@
 (setq prettify-symbols-unprettify-at-point t)
 (global-prettify-symbols-mode 1)
 
-;;; helm
-(require 'helm-config)
-(helm-mode 1)
-(global-set-key (kbd "M-x") #'helm-M-x)
-(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
-(global-set-key (kbd "C-x C-f") #'helm-find-files)
 
 ;;; yasnippet
 (require 'yasnippet)
