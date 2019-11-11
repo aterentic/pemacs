@@ -134,19 +134,13 @@
 
 (use-package uuidgen)
 
+(use-package tagedit)
+
+(use-package htmlize)
+
 (use-package paredit)
 
-(use-package csv-mode)
-
-(use-package yaml-mode)
-
-(use-package json-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.json$" . json-mode)))
-
-(use-package dockerfile-mode)
-
-(use-package markdown-mode)
+(use-package dedicated)
 
 (use-package helm
   :bind
@@ -171,6 +165,20 @@
 (use-package company
   :config
   (global-company-mode))
+
+(use-package projectile)
+
+(use-package csv-mode)
+
+(use-package yaml-mode)
+
+(use-package json-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.json$" . json-mode)))
+
+(use-package dockerfile-mode)
+
+(use-package markdown-mode)
 
 ;; golang
 (use-package go-mode
@@ -201,7 +209,9 @@
   (add-to-list 'company-backends 'company-go))
 
 ;;; elm
-(use-package elm-mode)
+(use-package elm-mode
+  :config
+  (add-to-list 'company-backends 'company-elm))
 (use-package flycheck-elm
   :hook
   (flycheck-mode . flycheck-elm-setup))
@@ -211,7 +221,6 @@
 (use-package intero
   :hook
   (haskell-mode . intero-mode))
-
 (use-package tidal)
 
 ;;; idris
@@ -223,53 +232,50 @@
 
 (use-package pdf-tools)
 
-(defvar package-list
-  '(js2-mode js2-refactor web-mode
-	     ac-js2 prettier-js 
-	     clojure-mode cider projectile
-	     tagedit 
-	     htmlize
-	     elpy py-autopep8 dedicated))
-
-(dolist (package package-list)
-  (unless (package-installed-p package)
-    (package-install package)))
-
 ;;; javascript
-(require 'prettier-js)
-(add-hook 'js2-mode-hook 'prettier-js-mode)
-(add-hook 'web-mode-hook 'prettier-js-mode)
+(use-package web-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  :hook
+  (web-mode . (lambda () (setq tab-width 4) (setq web-mode-code-indent-offset 2))))
+(use-package js2-mode
+  :config
+  (setq js2-highlight-level 3)
+  :hook
+  (js-mode . (lambda () (setq tab-width 4)))
+  (js-mode . js2-minor-mode))
+(use-package js2-refactor
+  :config
+  (js2r-add-keybindings-with-prefix "C-c C-m")
+  :hook
+  (js2-mode . js2-refactor-mode))
+(use-package prettier-js
+  :hook
+  (js2-mode . prettier-js-mode)
+  (web-mode . prettier-js-mode))
+(use-package ac-js2
+  :hook
+  (js2-mode . ac-js2-mode))
 
-(require 'js2-refactor)
-(add-hook 'js-mode-hook (lambda () (setq tab-width 4)))
-(add-hook 'js-mode-hook 'js2-minor-mode)
-(add-hook 'js2-mode-hook 'ac-js2-mode)
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
-(js2r-add-keybindings-with-prefix "C-c C-m")
-(setq js2-highlight-level 3)
-
-(require 'web-mode)
-(add-hook 'web-mode-hook (lambda () (setq tab-width 4) (setq web-mode-code-indent-offset 2)))
-(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
-(flycheck-add-mode 'javascript-eslint 'web-mode)
+;;; clojure
+(use-package clojure-mode)
+(use-package cider)
 
 ;;; python
-(elpy-enable)
-(setq elpy-rpc-python-command "python3")
-(setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
-(setenv "IPY_TEST_SIMPLE_PROMPT" "1")
-(setq python-shell-interpreter "ipython3" python-shell-interpreter-args "-i")
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-
-(add-to-list 'company-backends 'company-elm)
-
+(use-package elpy
+  :config
+  (elpy-enable)
+  (setenv "IPY_TEST_SIMPLE_PROMPT" "1")
+  (setq python-shell-interpreter "ipython3" python-shell-interpreter-args "-i")
+  (setq elpy-rpc-python-command "python3")
+  (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
+(use-package py-autopep8
+  :hook
+  (elpy-mode . py-autopep8-enable-on-save))
 
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
-
 
 ;;; init.el ends here
 (custom-set-variables
