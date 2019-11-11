@@ -8,13 +8,11 @@
 
 ;;; Code:
 
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3") ; temporary
-
 (setq user-full-name    "Aleksandar Terentić"
       user-mail-address "aterentic@gmail.com")
 
-;; disable startup screen
 (setq inhibit-startup-screen t)
+(setq ring-bell-function 'ignore)
 
 (toggle-frame-fullscreen)
 (tool-bar-mode -1)
@@ -35,15 +33,12 @@
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 (setq grep-find-ignored-directories '(".git" "vendor" "node_modules"))
 
-;; disable the annoying bell ring
-(setq ring-bell-function 'ignore)
-
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;;; enable subword-mode for all programming langs
 (add-hook 'prog-mode-hook 'subword-mode)
-
 ;;; prettify-symbols-mode
 (setq prettify-symbols-unprettify-at-point t)
 (global-prettify-symbols-mode 1)
@@ -56,8 +51,8 @@
 (require 'package)
 
 ;; stable picks up only tags from github.com
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 
 (package-initialize)
 
@@ -76,12 +71,9 @@
 (setq use-package-always-ensure t)
 
 ;;; themes: color-theme-solarized, material-theme
-
 (use-package material-theme
   :config
   (load-theme 'material t))
-
-(use-package fireplace)
 
 ;;; modeline
 (use-package powerline
@@ -97,7 +89,6 @@
   (nyan-toggle-wavy-trail)
   (nyan-start-animation))
 
-
 ;;; zone
 (use-package zone-nyan)
 (use-package zone-sl)
@@ -108,18 +99,18 @@
   (setq zone-programs
       (vconcat zone-programs [zone-nyan zone-sl zone-rainbow])))
 
-;;; org-mode
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-(use-package org-tree-slide)
-
 ;; highlight the current line
 (use-package hl-line
   :config
   (global-hl-line-mode t))
 
 (use-package exec-path-from-shell)
+
+;;; org-mode
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+(use-package org-tree-slide)
 
 (use-package move-text
   :bind
@@ -132,15 +123,31 @@
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
+(use-package fireplace)
+
+(use-package paredit)
+
 (use-package uuidgen)
 
 (use-package tagedit)
 
 (use-package htmlize)
 
-(use-package paredit)
-
 (use-package dedicated)
+
+(use-package pocket-reader)
+
+(use-package sonic-pi)
+
+(use-package pdf-tools)
+
+(use-package yasnippet
+  :config
+  (yas-global-mode 1))
+
+(use-package magit
+  :bind
+  (("C-x g" . magit-status)))
 
 (use-package helm
   :bind
@@ -149,15 +156,6 @@
    ("C-x C-f" . helm-find-files))
   :config
   (helm-mode 1))
-
-(use-package magit
-  :bind
-  (("C-x g" . magit-status)))
-
-(use-package yasnippet
-  :config
-  (yas-global-mode 1))
-
 (use-package flycheck
   :config
   (global-flycheck-mode))
@@ -168,17 +166,35 @@
 
 (use-package projectile)
 
+(use-package dockerfile-mode)
+
 (use-package csv-mode)
 
 (use-package yaml-mode)
+
+(use-package markdown-mode)
 
 (use-package json-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.json$" . json-mode)))
 
-(use-package dockerfile-mode)
+;;; elm
+(use-package elm-mode
+  :config
+  (add-to-list 'company-backends 'company-elm))
+(use-package flycheck-elm
+ :hook
+ (flycheck-mode . flycheck-elm-setup))
 
-(use-package markdown-mode)
+;;; haskell
+(use-package haskell-mode)
+(use-package intero
+  :hook
+  (haskell-mode . intero-mode))
+(use-package tidal)
+
+;;; idris
+(use-package idris-mode)
 
 ;; golang
 (use-package go-mode
@@ -202,35 +218,11 @@
 (use-package godoctor)
 (use-package go-eldoc)
 (use-package flycheck-golangci-lint
-  :hook
-  (flycheck-mode . flycheck-golangci-lint-setup))
+ :hook
+ (flycheck-mode . flycheck-golangci-lint-setup))
 (use-package company-go
   :config
   (add-to-list 'company-backends 'company-go))
-
-;;; elm
-(use-package elm-mode
-  :config
-  (add-to-list 'company-backends 'company-elm))
-(use-package flycheck-elm
-  :hook
-  (flycheck-mode . flycheck-elm-setup))
-
-;;; haskell
-(use-package haskell-mode)
-(use-package intero
-  :hook
-  (haskell-mode . intero-mode))
-(use-package tidal)
-
-;;; idris
-(use-package idris-mode)
-
-(use-package pocket-reader)
-
-(use-package sonic-pi)
-
-(use-package pdf-tools)
 
 ;;; javascript
 (use-package web-mode
@@ -258,10 +250,6 @@
   :hook
   (js2-mode . ac-js2-mode))
 
-;;; clojure
-(use-package clojure-mode)
-(use-package cider)
-
 ;;; python
 (use-package elpy
   :config
@@ -275,28 +263,11 @@
   :hook
   (elpy-mode . py-autopep8-enable-on-save))
 
+;;; clojure
+(use-package clojure-mode)
+(use-package cider)
+
+;;; local defaults
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
 
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
- '(package-selected-packages
-   (quote
-    (htmlize pdf-tools zone-rainbow zone-sl zone-nyan nyan-mode color-theme-solarized exec-path-from-shell powerline yaml-mode godoctor gotest go-guru go-direx go-rename go-mode intero idris-mode magit tagedit rainbow-delimiters projectile tidal sonic-pi cider flycheck-elm elm-mode clojure-mode org-tree-slide markdown-mode prettier-js ac-js2 pocket-reader dockerfile-mode json-mode web-mode js2-refactor js2-mode csv-mode flycheck yasnippet company company-go helm paredit uuidgen move-text)))
- '(safe-local-variable-values
-   (quote
-    ((elm-package-json . "elm.json")
-     (elm-compile-arguments "--output=elm.js" "--debug")
-     (elm-reactor-arguments "--port" "8000")))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
