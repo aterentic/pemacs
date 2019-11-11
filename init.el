@@ -13,9 +13,6 @@
 (setq user-full-name    "Aleksandar Terentić"
       user-mail-address "aterentic@gmail.com")
 
-;; disable the annoying bell ring
-(setq ring-bell-function 'ignore)
-
 ;; disable startup screen
 (setq inhibit-startup-screen t)
 
@@ -31,20 +28,18 @@
       scroll-conservatively 100000
       scroll-preserve-screen-position 1)
 
-;; mode line settings
-(display-time-mode t)
-(line-number-mode t)
-(column-number-mode t)
-(size-indication-mode t)
-
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+(setq grep-find-ignored-directories '(".git" "vendor" "node_modules"))
 
-;; delete the selection with a keypress
-(delete-selection-mode t)
+;; disable the annoying bell ring
+(setq ring-bell-function 'ignore)
+
+(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region)
 
 ;;; enable subword-mode for all programming langs
 (add-hook 'prog-mode-hook 'subword-mode)
@@ -53,19 +48,11 @@
 (setq prettify-symbols-unprettify-at-point t)
 (global-prettify-symbols-mode 1)
 
-(global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region)
-
-;;; org-mode
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-
-(setq grep-find-ignored-directories '(".git" "vendor" "node_modules"))
-
+(delete-selection-mode t)
 (desktop-save-mode 1)
 (server-mode)
 
+;;; package archives
 (require 'package)
 
 ;; stable picks up only tags from github.com
@@ -77,6 +64,8 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
+;;; use package
+
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
@@ -87,23 +76,77 @@
 (setq use-package-always-ensure t)
 
 ;;; themes: color-theme-solarized, material-theme
+
 (use-package material-theme
   :config
   (load-theme 'material t))
+
+(use-package fireplace)
+
+;;; modeline
+(use-package powerline
+  :config
+  (powerline-default-theme)
+  (display-time-mode t)
+  (line-number-mode t)
+  (column-number-mode t)
+  (size-indication-mode t))
+(use-package nyan-mode
+  :config
+  (nyan-mode 1)
+  (nyan-toggle-wavy-trail)
+  (nyan-start-animation))
+
+
+;;; zone
+(use-package zone-nyan)
+(use-package zone-sl)
+(use-package zone-rainbow)
+(use-package zone
+  :config
+  (zone-when-idle 180)
+  (setq zone-programs
+      (vconcat zone-programs [zone-nyan zone-sl zone-rainbow])))
+
+;;; org-mode
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+(use-package org-tree-slide)
 
 ;; highlight the current line
 (use-package hl-line
   :config
   (global-hl-line-mode t))
 
+(use-package exec-path-from-shell)
+
 (use-package move-text
   :bind
   (([(meta shift up)] . move-text-up)
    ([(meta shift down)] . move-text-down)))
 
+(use-package highlight-indentation)
+
+(use-package rainbow-delimiters
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
+
 (use-package uuidgen)
 
 (use-package paredit)
+
+(use-package csv-mode)
+
+(use-package yaml-mode)
+
+(use-package json-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.json$" . json-mode)))
+
+(use-package dockerfile-mode)
+
+(use-package markdown-mode)
 
 (use-package helm
   :bind
@@ -113,7 +156,9 @@
   :config
   (helm-mode 1))
 
-(use-package tidal)
+(use-package magit
+  :bind
+  (("C-x g" . magit-status)))
 
 (use-package yasnippet
   :config
@@ -123,55 +168,72 @@
   :config
   (global-flycheck-mode))
 
-(use-package magit
-  :bind
-  (("C-x g" . magit-status)))
-
-(use-package csv-mode)
-
-(use-package json-mode
+(use-package company
   :config
-  (add-to-list 'auto-mode-alist '("\\.json$" . json-mode)))
+  (global-company-mode))
 
-(use-package dockerfile-mode)
-(use-package dockerfile-mode)
+;; golang
+(use-package go-mode
+  :bind (:map go-mode-map
+	      ("M-." . godef-jump)
+	      ("C-c C-k" . godoc)
+	      ("C-c C-b" . pop-tag-mark)
+	      ("C-c C-c" . compile))
+  :hook
+  (go-mode . linum-mode)
+  (before-save . gofmt-before-save)
+  :config
+  (go-eldoc-setup)
+  (setq gofmt-command "goimports")
+  (setq compile-command "echo Building...; go build -v -o /dev/null; echo Testing...; go test -v; echo Linter...; golint")
+  (setq compilation-read-command nil))
+(use-package go-rename)
+(use-package go-direx)
+(use-package go-guru)
+(use-package gotest)
+(use-package godoctor)
+(use-package go-eldoc)
+(use-package flycheck-golangci-lint
+  :hook
+  (flycheck-mode . flycheck-golangci-lint-setup))
+(use-package company-go
+  :config
+  (add-to-list 'company-backends 'company-go))
+
+;;; elm
+(use-package elm-mode)
+(use-package flycheck-elm
+  :hook
+  (flycheck-mode . flycheck-elm-setup))
+
+;;; haskell
+(use-package haskell-mode)
+(use-package intero
+  :hook
+  (haskell-mode . intero-mode))
+
+(use-package tidal)
+
+;;; idris
+(use-package idris-mode)
+
+(use-package pocket-reader)
+
+(use-package sonic-pi)
+
+(use-package pdf-tools)
 
 (defvar package-list
-  '(company js2-mode js2-refactor web-mode
-	      pocket-reader ac-js2 prettier-js markdown-mode org-tree-slide
-	      clojure-mode elm-mode flycheck-elm cider sonic-pi projectile
-	      rainbow-delimiters tagedit haskell-mode idris-mode intero
-	      go-mode go-rename go-direx go-guru gotest godoctor
-	      company-go yaml-mode powerline exec-path-from-shell
-	      nyan-mode zone-nyan zone-sl zone-rainbow pdf-tools htmlize fireplace
-	      go-eldoc flycheck-golangci-lint highlight-indentation elpy py-autopep8 dedicated))
+  '(js2-mode js2-refactor web-mode
+	     ac-js2 prettier-js 
+	     clojure-mode cider projectile
+	     tagedit 
+	     htmlize
+	     elpy py-autopep8 dedicated))
 
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
-
-;;; go
-(require 'go-mode)
-(defun go-mode-setup ()
-  (linum-mode 1)
-  (go-eldoc-setup)
-  (setq gofmt-command "goimports")
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  (local-set-key (kbd "M-.") 'godef-jump)
-  (local-set-key (kbd "C-c C-k") 'godoc)
-  (local-set-key (kbd "C-c C-b") 'pop-tag-mark)
-  (local-set-key (kbd "C-c C-c") 'compile)
-  (setq compile-command "echo Building...; go build -v -o /dev/null; echo Testing...; go test -v; echo Linter...; golint")
-  (setq compilation-read-command nil)
-  (add-hook 'flycheck-mode-hook 'flycheck-golangci-lint-setup))
-(add-hook 'go-mode-hook 'go-mode-setup)
-  
-;;; elm
-(eval-after-load 'flycheck '(flycheck-elm-setup))
-
-;;; haskell
-(require 'haskell-mode)
-(add-hook 'haskell-mode-hook 'intero-mode)
 
 ;;; javascript
 (require 'prettier-js)
@@ -203,29 +265,8 @@
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
-;;; company
-(require 'company)
-(require 'company-go)
-(add-to-list 'company-backends 'company-go)
 (add-to-list 'company-backends 'company-elm)
-(add-hook 'after-init-hook 'global-company-mode)
 
-;;; zone
-(require 'zone)
-(zone-when-idle 180)
-(setq zone-programs
-      (vconcat zone-programs [zone-nyan zone-sl zone-rainbow]))
-
-;;; powerline
-(require 'powerline)
-(require 'nyan-mode)
-(powerline-default-theme)
-(nyan-mode 1)
-(nyan-toggle-wavy-trail)
-(nyan-start-animation)
-
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
 
@@ -241,4 +282,15 @@
     ("a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(package-selected-packages
    (quote
-    (htmlize pdf-tools zone-rainbow zone-sl zone-nyan nyan-mode color-theme-solarized exec-path-from-shell powerline yaml-mode godoctor gotest go-guru go-direx go-rename go-mode intero idris-mode magit tagedit rainbow-delimiters projectile tidal sonic-pi cider flycheck-elm elm-mode clojure-mode org-tree-slide markdown-mode prettier-js ac-js2 pocket-reader dockerfile-mode json-mode web-mode js2-refactor js2-mode csv-mode flycheck yasnippet company company-go helm paredit uuidgen move-text))))
+    (htmlize pdf-tools zone-rainbow zone-sl zone-nyan nyan-mode color-theme-solarized exec-path-from-shell powerline yaml-mode godoctor gotest go-guru go-direx go-rename go-mode intero idris-mode magit tagedit rainbow-delimiters projectile tidal sonic-pi cider flycheck-elm elm-mode clojure-mode org-tree-slide markdown-mode prettier-js ac-js2 pocket-reader dockerfile-mode json-mode web-mode js2-refactor js2-mode csv-mode flycheck yasnippet company company-go helm paredit uuidgen move-text)))
+ '(safe-local-variable-values
+   (quote
+    ((elm-package-json . "elm.json")
+     (elm-compile-arguments "--output=elm.js" "--debug")
+     (elm-reactor-arguments "--port" "8000")))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
