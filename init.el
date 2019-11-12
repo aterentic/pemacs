@@ -70,10 +70,10 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-;;; themes: color-theme-solarized, material-theme
-(use-package material-theme
+;;; themes: solarized-theme, material-theme, monokai-theme
+(use-package monokai-theme
   :config
-  (load-theme 'material t))
+  (load-theme 'monokai t))
 
 ;;; modeline
 (use-package powerline
