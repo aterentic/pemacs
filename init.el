@@ -112,6 +112,13 @@
 (setq org-log-done t)
 (use-package org-tree-slide)
 
+(use-package deft
+  :config
+  (setq deft-extensions '("org"))
+  (setq deft-use-filename-as-title t)
+  (setq deft-use-filter-string-for-filename t)
+  (setq deft-recursive t))
+
 (use-package move-text
   :bind
   (([(meta shift up)] . move-text-up)
