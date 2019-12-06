@@ -80,6 +80,7 @@
   :config
   (powerline-default-theme)
   (display-time-mode t)
+  (setq display-time-day-and-date t)
   (line-number-mode t)
   (column-number-mode t)
   (size-indication-mode t))
