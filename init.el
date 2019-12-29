@@ -196,9 +196,6 @@
 
 ;;; haskell
 (use-package haskell-mode)
-(use-package intero
-  :hook
-  (haskell-mode . intero-mode))
 (use-package tidal)
 
 ;;; idris
