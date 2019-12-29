@@ -168,6 +168,15 @@
   :config
   (global-flycheck-mode))
 
+(use-package lsp-mode
+  :hook (elm-mode . lsp)
+  :commands lsp)
+
+(use-package lsp-ui
+  :hook
+  (lsp-mode . lsp-ui-mode)
+  (elm-mode . flycheck-mode))
+
 (use-package company
   :config
   (global-company-mode))
