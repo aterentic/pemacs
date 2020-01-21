@@ -168,15 +168,6 @@
   :config
   (global-flycheck-mode))
 
-(use-package lsp-mode
-  :hook (elm-mode . lsp)
-  :commands lsp)
-
-(use-package lsp-ui
-  :hook
-  (lsp-mode . lsp-ui-mode)
-  (elm-mode . flycheck-mode))
-
 (use-package company
   :config
   (global-company-mode))
@@ -198,7 +189,8 @@
 ;;; elm
 (use-package elm-mode
   :config
-  (add-to-list 'company-backends 'company-elm))
+  (add-to-list 'company-backends 'company-elm)
+  (setq elm-package-json "elm.json"))
 (use-package flycheck-elm
  :hook
  (flycheck-mode . flycheck-elm-setup))
@@ -280,6 +272,16 @@
 ;;; clojure
 (use-package clojure-mode)
 (use-package cider)
+
+
+(use-package lsp-mode
+  :hook (elm-mode . lsp)
+  :commands lsp)
+
+(use-package lsp-ui
+  :hook
+  (lsp-mode . lsp-ui-mode)
+  (elm-mode . flycheck-mode))
 
 ;;; local defaults
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
