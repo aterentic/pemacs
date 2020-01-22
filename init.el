@@ -276,6 +276,7 @@
 
 (use-package lsp-mode
   :hook (elm-mode . lsp)
+        (css-mode . lsp)
   :commands lsp)
 
 (use-package lsp-ui
