@@ -152,12 +152,7 @@
 (use-package pdf-tools)
 
 (use-package yasnippet
-  :config
-  (yas-global-mode 1))
-
-(use-package magit
-  :bind
-  (("C-x g" . magit-status)))
+  :commands yas-minor-mode)
 
 (use-package helm
   :bind
@@ -166,15 +161,39 @@
    ("C-x C-f" . helm-find-files))
   :config
   (helm-mode 1))
+
+(use-package magit
+  :bind
+  (("C-x g" . magit-status)))
+
 (use-package flycheck
   :config
   (global-flycheck-mode))
 
 (use-package company
   :config
-  (global-company-mode))
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 1))
 
 (use-package projectile)
+
+(use-package lsp-mode
+  :commands lsp lsp-deferred
+  :hook
+  (css-mode . lsp-deferred))
+
+(use-package lsp-ui
+  :hook
+  (lsp-mode . lsp-ui-mode)
+  :config
+  (setq lsp-ui-doc-enable nil
+	lsp-ui-peek-enable t
+	lsp-ui-sideline-enable t
+	lsp-ui-imenu-enable t
+	lsp-ui-flycheck-enable t))
+
+(use-package company-lsp
+  :commands company-lsp)
 
 (use-package dockerfile-mode)
 
@@ -192,7 +211,10 @@
 (use-package elm-mode
   :config
   (add-to-list 'company-backends 'company-elm)
-  (setq elm-package-json "elm.json"))
+  (setq elm-package-json "elm.json")
+  :hook
+  (elm-mode . lsp-deferred))
+
 (use-package flycheck-elm
  :hook
  (flycheck-mode . flycheck-elm-setup))
@@ -206,31 +228,20 @@
 
 ;; golang
 (use-package go-mode
-  :bind (:map go-mode-map
-	      ("M-." . godef-jump)
-	      ("C-c C-k" . godoc)
-	      ("C-c C-b" . pop-tag-mark)
-	      ("C-c C-c" . compile))
+  :bind
+  ("M-," . compile)
+  ("M-." . godef-jump)
   :hook
   (go-mode . linum-mode)
-  (before-save . gofmt-before-save)
+  (go-mode . yas-minor-mode)
+  (go-mode . lsp-deferred)
+  (before-save . (lambda () (lsp-format-buffer) (lsp-organize-imports)))
   :config
-  (go-eldoc-setup)
-  (setq gofmt-command "goimports")
+  (setq lsp-gopls-staticcheck t)
+  (setq lsp-gopls-complete-unimported t)
+  (setq lsp-eldoc-render-all t)
   (setq compile-command "echo Building...; go build -v -o /dev/null; echo Testing...; go test -v; echo Linter...; golint")
   (setq compilation-read-command nil))
-(use-package go-rename)
-(use-package go-direx)
-(use-package go-guru)
-(use-package gotest)
-(use-package godoctor)
-(use-package go-eldoc)
-(use-package flycheck-golangci-lint
- :hook
- (flycheck-mode . flycheck-golangci-lint-setup))
-(use-package company-go
-  :config
-  (add-to-list 'company-backends 'company-go))
 
 ;;; javascript
 (use-package web-mode
@@ -239,6 +250,7 @@
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   :hook
   (web-mode . (lambda () (setq tab-width 4) (setq web-mode-code-indent-offset 2))))
+
 (use-package js2-mode
   :config
   (setq js2-highlight-level 3)
@@ -267,6 +279,7 @@
   (setq elpy-rpc-python-command "python3")
   (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
+
 (use-package py-autopep8
   :hook
   (elpy-mode . py-autopep8-enable-on-save))
@@ -274,17 +287,6 @@
 ;;; clojure
 (use-package clojure-mode)
 (use-package cider)
-
-
-(use-package lsp-mode
-  :hook (elm-mode . lsp)
-        (css-mode . lsp)
-  :commands lsp)
-
-(use-package lsp-ui
-  :hook
-  (lsp-mode . lsp-ui-mode)
-  (elm-mode . flycheck-mode))
 
 ;;; local defaults
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
