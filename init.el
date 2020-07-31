@@ -41,6 +41,7 @@
 
 ;;; enable subword-mode for all programming langs
 (add-hook 'prog-mode-hook 'subword-mode)
+
 ;;; prettify-symbols-mode
 (setq prettify-symbols-unprettify-at-point t)
 (global-prettify-symbols-mode 1)
@@ -62,7 +63,6 @@
   (package-refresh-contents))
 
 ;;; use package
-
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
@@ -115,8 +115,10 @@
 (setq org-log-done t)
 (use-package org-tree-slide)
 
+
 (use-package deft
   :config
+  (define-key global-map "\C-c\C-d" 'deft)
   (setq deft-extensions '("org"))
   (setq deft-use-filename-as-title t)
   (setq deft-use-filter-string-for-filename t)
