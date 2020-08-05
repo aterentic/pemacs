@@ -180,6 +180,8 @@
 (use-package projectile)
 
 (use-package lsp-mode
+  :config
+  (setq lsp-file-watch-threshold 20000)
   :commands lsp lsp-deferred
   :hook
   (css-mode . lsp-deferred))
