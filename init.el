@@ -114,7 +114,11 @@
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 (use-package org-tree-slide)
-
+(use-package org-superstar
+  :config
+  (org-superstar-configure-like-org-bullets)
+  :hook
+  (org-mode . (lambda () (org-superstar-mode 1))))
 
 (use-package deft
   :config
