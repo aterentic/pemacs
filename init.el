@@ -119,6 +119,12 @@
   (org-superstar-configure-like-org-bullets)
   :hook
   (org-mode . (lambda () (org-superstar-mode 1))))
+(setq org-agenda-custom-commands
+      '(("ct" tags-todo "TODO=\"TODO\"-job-nabavka"
+	 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
+	("ck" tags-todo "TODO=\"TODO\"-nabavka+kupovina")
+	("cn" tags-todo "TODO=\"TODO\"+nabavka+kupovina")
+	("cj" tags-todo "TODO=\"TODO\"+job")))
 
 (use-package deft
   :config
