@@ -13,3 +13,7 @@ url/
 /.emacs.desktop
 /.emacs.desktop.lock
 /org-clock-save.el
+/.cache/
+/.lsp-session-v1
+/elpy/
+/transient/
