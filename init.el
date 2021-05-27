@@ -9,12 +9,11 @@
 ;;; Code:
 
 (setq user-full-name    "Aleksandar Terentić"
-      user-mail-address "aterentic@gmail.com")
+      user-mail-address "aterentic@pm.me")
 
 (setq inhibit-startup-screen t)
 (setq ring-bell-function 'ignore)
 
-(toggle-frame-fullscreen)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -122,7 +121,8 @@
 (setq org-agenda-custom-commands
       '(("ct" tags-todo "TODO=\"TODO\"-job-nabavka"
 	 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
-	("ck" tags-todo "TODO=\"TODO\"-nabavka+kupovina")
+	("ck" tags-todo "TODO=\"TODO\"-nabavka-putovanja+kupovina")
+	("cp" tags-todo "TODO=\"TODO\"+putovanje+kupovina")
 	("cn" tags-todo "TODO=\"TODO\"+nabavka+kupovina")
 	("cj" tags-todo "TODO=\"TODO\"+job")))
 
@@ -159,7 +159,7 @@
 
 (use-package pocket-reader)
 
-(use-package sonic-pi)
+;;; (use-package sonic-pi)
 
 (use-package pdf-tools)
 
@@ -206,9 +206,6 @@
 	lsp-ui-imenu-enable t
 	lsp-ui-flycheck-enable t))
 
-(use-package company-lsp
-  :commands company-lsp)
-
 (use-package dockerfile-mode)
 
 (use-package csv-mode)
@@ -224,8 +221,8 @@
 ;;; elm
 (use-package elm-mode
   :config
-  (add-to-list 'company-backends 'company-elm)
-  (setq elm-package-json "elm.json")
+  ;; (add-to-list 'company-backends 'company-elm)
+  ;; (setq elm-package-json "elm.json")
   :hook
   (elm-mode . lsp-deferred))
 
@@ -256,6 +253,7 @@
   (setq lsp-eldoc-render-all t)
   (setq compile-command "echo Building...; go build -v -o /dev/null; echo Testing...; go test -v; echo Linter...; golint")
   (setq compilation-read-command nil))
+(use-package gotest)
 
 ;;; javascript
 (use-package web-mode
