@@ -20,13 +20,6 @@
 
 (setq large-file-warning-threshold 100000000)
 
-;; scrolling
-(setq scroll-margin 0
-      scroll-conservatively 100000
-      scroll-preserve-screen-position 1
-      mouse-wheel-scroll-amount '(1)
-      mouse-wheel-progressive-speed nil)
-
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
