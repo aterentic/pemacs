@@ -199,6 +199,9 @@
 	lsp-ui-imenu-enable t
 	lsp-ui-flycheck-enable t))
 
+(global-display-line-numbers-mode)
+(setq display-line-numbers-type 'relative)
+
 (use-package dockerfile-mode)
 
 (use-package csv-mode)
@@ -236,7 +239,6 @@
   ("M-," . compile)
   ("M-." . godef-jump)
   :hook
-  (go-mode . linum-mode)
   (go-mode . yas-minor-mode)
   (go-mode . lsp-deferred)
   (before-save . (lambda () (lsp-format-buffer) (lsp-organize-imports)))
@@ -296,19 +298,3 @@
 ;;; local defaults
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
 
-;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-agenda-files
-   '("/mnt/c/Users/aterentic/Documents/org/private/job.org" "/mnt/c/Users/aterentic/Documents/org/private/music.org" "/mnt/c/Users/aterentic/Documents/org/private/personal.org" "/mnt/c/Users/aterentic/Documents/org/private/tools.org" "/mnt/c/Users/aterentic/Documents/org/shared/memory.org" "/mnt/c/Users/aterentic/Documents/org/shared/nabavka.org" "/mnt/c/Users/aterentic/Documents/org/shared/porodica.org" "/mnt/c/Users/aterentic/Documents/org/shared/putovanja.org" "/mnt/c/Users/aterentic/Documents/org/shared/stan.org" "/mnt/c/Users/aterentic/Documents/org/shared/todo.org"))
- '(package-selected-packages
-   '(lsp-ui zone-sl zone-rainbow zone-nyan yaml-mode web-mode uuidgen use-package tidal tagedit rainbow-delimiters py-autopep8 projectile prettier-js powerline pocket-reader pdf-tools paredit org-tree-slide org-superstar nyan-mode move-text monokai-theme modus-vivendi-theme magit json-mode js2-refactor idris-mode htmlize helm gotest flycheck-elm fireplace exec-path-from-shell elpy elm-mode deft dedicated csv-mode cider ac-js2)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
