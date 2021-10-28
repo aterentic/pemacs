@@ -233,6 +233,9 @@
 ;;; idris
 (use-package idris-mode)
 
+;;; rust
+(use-package rust-mode)
+
 ;; golang
 (use-package go-mode
   :bind
