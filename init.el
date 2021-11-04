@@ -99,8 +99,6 @@
   :config
   (global-hl-line-mode t))
 
-(use-package exec-path-from-shell)
-
 ;;; org-mode
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -219,6 +217,7 @@
   :config
   ;; (add-to-list 'company-backends 'company-elm)
   ;; (setq elm-package-json "elm.json")
+  (setq indent-tabs-mode nil)
   :hook
   (elm-mode . lsp-deferred))
 
@@ -234,7 +233,15 @@
 (use-package idris-mode)
 
 ;;; rust
-(use-package rust-mode)
+(use-package rust-mode
+  :bind
+  (("C-c C-c" . rust-compile)
+   ("C-c C-t" . rust-test))
+  :config
+  (setq indent-tabs-mode nil)
+  (setq rust-format-on-save t)
+  :hook
+  (rust-mode . lsp-deferred))
 
 ;; golang
 (use-package go-mode
@@ -294,9 +301,14 @@
   :hook
   (elpy-mode . py-autopep8-enable-on-save))
 
-;;; clojure
-(use-package clojure-mode)
-(use-package cider)
+;; ;;; clojure
+;; (use-package clojure-mode)
+;; (use-package cider)
+
+(use-package exec-path-from-shell)
+  ;; :config
+  ;; (when (memq window-system '(mac ns x))
+  ;;   (exec-path-from-shell-initialize)))
 
 ;;; local defaults
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
