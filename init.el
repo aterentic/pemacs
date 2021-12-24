@@ -284,6 +284,10 @@
   :hook
   (js2-mode . ac-js2-mode))
 
+;;; typescript
+
+(use-package tide)
+
 ;;; python
 (use-package elpy
   :config
