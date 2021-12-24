@@ -214,12 +214,9 @@
 
 ;;; elm
 (use-package elm-mode
-  :config
-  ;; (add-to-list 'company-backends 'company-elm)
-  ;; (setq elm-package-json "elm.json")
-  (setq indent-tabs-mode nil)
   :hook
-  (elm-mode . lsp-deferred))
+  (elm-mode . lsp-deferred)
+  (elm-mode . (lambda () (setq indent-tabs-mode nil))))
 
 (use-package flycheck-elm
  :hook
