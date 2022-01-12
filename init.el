@@ -117,6 +117,8 @@
 	("cn" tags-todo "TODO=\"TODO\"+nabavka+kupovina")
 	("cj" tags-todo "TODO=\"TODO\"+job")))
 
+(use-package wgrep)
+
 (use-package deft
   :config
   (define-key global-map "\C-c\C-d" 'deft)
