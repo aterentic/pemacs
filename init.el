@@ -12,7 +12,8 @@
       user-mail-address "aterentic@pm.me")
 
 (setq inhibit-startup-screen t)
-(setq ring-bell-function 'ignore)
+(setq visible-bell t)
+;;; (setq ring-bell-function 'ignore)
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -123,7 +124,19 @@
 	("ck" tags-todo "TODO=\"TODO\"-nabavka+kupovina")
 	("cp" tags-todo "TODO=\"PACK\"")
 	("cn" tags-todo "TODO=\"TODO\"+nabavka+kupovina")
+	("cr" tags-todo "TODO=\"TODO\"+reading")
 	("cj" tags-todo "TODO=\"TODO\"+job")))
+
+;;; naive way of alerting on elapsed timer
+(setq org-show-notification-handler
+      '(lambda (notification)
+	 (let ((flash-sec 1.0))
+           (invert-face 'mode-line)
+	   (run-with-timer flash-sec nil #'invert-face 'mode-line)
+	   (run-with-timer (* 2 flash-sec) nil #'invert-face 'mode-line)
+	   (run-with-timer (* 3 flash-sec) nil #'invert-face 'mode-line)
+	   (run-with-timer (* 4 flash-sec) nil #'invert-face 'mode-line)
+	   (run-with-timer (* 5 flash-sec) nil #'invert-face 'mode-line))))
 
 (use-package wgrep)
 
@@ -304,6 +317,7 @@
               ("C-c C-c d" . dap-hydra)
               ("C-c C-c h" . lsp-ui-doc-glance))
   :config
+  (setq lsp-rust-analyzer-server-display-inlay-hints nil)
   ;; uncomment for less flashiness
   ;; (setq lsp-eldoc-hook nil)
   ;; (setq lsp-enable-symbol-highlighting nil)
