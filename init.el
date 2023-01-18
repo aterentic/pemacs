@@ -108,6 +108,8 @@
   ;; (when (memq window-system '(mac ns x))
   ;;   (exec-path-from-shell-initialize)))
 
+(use-package svg-clock)
+
 ;;; org-mode
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
