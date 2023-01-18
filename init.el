@@ -42,7 +42,7 @@
 (desktop-save-mode 1)
 ;;; (server-mode)
 
-(setq require-final-newline t)
+;;; (setq require-final-newline t)
 
 ;;; package archives
 (require 'package)
@@ -116,8 +116,6 @@
 (setq org-log-done t)
 (use-package org-tree-slide)
 (use-package org-superstar
-  :config
-  (org-superstar-configure-like-org-bullets)
   :hook
   (org-mode . (lambda () (org-superstar-mode 1))))
 (setq org-agenda-custom-commands
@@ -128,17 +126,6 @@
 	("cn" tags-todo "TODO=\"TODO\"+nabavka+kupovina")
 	("cr" tags-todo "TODO=\"TODO\"+reading")
 	("cj" tags-todo "TODO=\"TODO\"+job")))
-
-;;; naive way of alerting on elapsed timer
-(setq org-show-notification-handler
-      '(lambda (notification)
-	 (let ((flash-sec 1.0))
-           (invert-face 'mode-line)
-	   (run-with-timer flash-sec nil #'invert-face 'mode-line)
-	   (run-with-timer (* 2 flash-sec) nil #'invert-face 'mode-line)
-	   (run-with-timer (* 3 flash-sec) nil #'invert-face 'mode-line)
-	   (run-with-timer (* 4 flash-sec) nil #'invert-face 'mode-line)
-	   (run-with-timer (* 5 flash-sec) nil #'invert-face 'mode-line))))
 
 (use-package wgrep)
 
@@ -182,24 +169,24 @@
   :config
   (helm-mode 1))
 
-(use-package marginalia
-  :config
-  (marginalia-mode))
+;; (use-package marginalia
+;;   :config
+;;   (marginalia-mode))
 
-(use-package embark
-  :bind
-  (("C-;" . embark-act)         ;; pick some comfortable binding
-   ("C-:" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-  :init
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
-  :config
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
+;; (use-package embark
+;;   :bind
+;;   (("C-;" . embark-act)         ;; pick some comfortable binding
+;;    ("C-:" . embark-dwim)        ;; good alternative: M-.
+;;    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+;;   :init
+;;   ;; Optionally replace the key help with a completing-read interface
+;;   (setq prefix-help-command #'embark-prefix-help-command)
+;;   :config
+;;   ;; Hide the mode line of the Embark live/completions buffers
+;;   (add-to-list 'display-buffer-alist
+;;                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+;;                  nil
+;;                  (window-parameters (mode-line-format . none)))))
 
 (use-package magit
   :bind
@@ -228,14 +215,6 @@
 
 (use-package projectile)
 
-(defun rk/rustic-mode-hook ()
-  ;; so that run C-c C-c C-r works without having to confirm, but don't try to
-  ;; save rust buffers that are not file visiting. Once
-  ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
-  ;; no longer be necessary.
-  (when buffer-file-name
-    (setq-local buffer-save-without-query t)))
-
 (use-package lsp-mode
   :config
   ;; (setq lsp-file-watch-threshold 20000)
@@ -246,19 +225,19 @@
   (lsp-rust-analyzer-cargo-watch-command "clippy")
   (lsp-eldoc-render-all t)
   (lsp-idle-delay 0.6)
-  (lsp-response-timeout 30)
+  (lsp-response-timeout 180)
   ;; This controls the overlays that display type and other hints inline. Enable
   ;; / disable as you prefer. Well require a `lsp-workspace-restart' to have an
   ;; effect on open projects.
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-  (lsp-rust-analyzer-display-chaining-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-  (lsp-rust-analyzer-display-closure-return-type-hints t)
-  (lsp-rust-analyzer-display-parameter-hints nil)
-  (lsp-rust-analyzer-display-reborrow-hints nil)
-  :hook
-  (css-mode . lsp-deferred))
+  ;; (lsp-rust-analyzer-server-display-inlay-hints t)
+  ;; (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  ;; (lsp-rust-analyzer-display-chaining-hints t)
+  ;; (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  ;; (lsp-rust-analyzer-display-closure-return-type-hints t)
+  ;; (lsp-rust-analyzer-display-parameter-hints nil)
+  ;; (lsp-rust-analyzer-display-reborrow-hints nil)
+  ;; (lsp-restart 'auto-restart)
+  )
 
 (use-package lsp-ui
   :ensure
@@ -273,6 +252,8 @@
 
 (use-package dockerfile-mode)
 
+(use-package feature-mode)
+
 (use-package csv-mode)
 
 (use-package yaml-mode)
@@ -282,6 +263,10 @@
 (use-package json-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.json$" . json-mode)))
+
+(use-package css-mode
+  :hook
+  (css-mode . lsp-deferred))
 
 ;;; elm
 (use-package elm-mode
@@ -300,35 +285,18 @@
 ;;; idris
 (use-package idris-mode)
 
-;;; rust
-;; (use-package rustic)
-;;   ;; :config
-;;   ;; (setq rustic-format-on-save t))
-
 (use-package rustic
   :ensure
-  :bind (:map rustic-mode-map
-              ("M-j" . lsp-ui-imenu)
-              ("M-?" . lsp-find-references)
-              ("C-c C-c l" . flycheck-list-errors)
-              ("C-c C-c a" . lsp-execute-code-action)
-              ("C-c C-c r" . lsp-rename)
-              ("C-c C-c q" . lsp-workspace-restart)
-              ("C-c C-c Q" . lsp-workspace-shutdown)
-              ("C-c C-c s" . lsp-rust-analyzer-status)
-              ("C-c C-c e" . lsp-rust-analyzer-expand-macro)
-              ("C-c C-c d" . dap-hydra)
-              ("C-c C-c h" . lsp-ui-doc-glance))
   :config
-  (setq lsp-rust-analyzer-server-display-inlay-hints nil)
+  (setq rustic-format-display-method 'ignore)
   ;; uncomment for less flashiness
   ;; (setq lsp-eldoc-hook nil)
   ;; (setq lsp-enable-symbol-highlighting nil)
   ;; (setq lsp-signature-auto-activate nil)
 
   ;; comment to disable rustfmt on save
-  (setq rustic-format-on-save t)
-  (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
+  ;; (setq rustic-format-trigger 'on-save)
+)
 
 ;; golang
 (use-package go-mode
@@ -374,7 +342,6 @@
   (js2-mode . ac-js2-mode))
 
 ;;; typescript
-
 (use-package tide)
 
 ;;; python
