@@ -28,9 +28,7 @@
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 (global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "C-x C-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-
 ;;; enable subword-mode for all programming langs
 (add-hook 'prog-mode-hook 'subword-mode)
 
@@ -96,7 +94,7 @@
   :config
   (zone-when-idle 180)
   (setq zone-programs
-      (vconcat zone-programs [zone-nyan zone-sl zone-rainbow])))
+	(vconcat zone-programs [zone-nyan zone-sl zone-rainbow])))
 
 ;; highlight the current line
 (use-package hl-line
@@ -104,28 +102,33 @@
   (global-hl-line-mode t))
 
 (use-package exec-path-from-shell)
-  ;; :config
-  ;; (when (memq window-system '(mac ns x))
-  ;;   (exec-path-from-shell-initialize)))
+;; :config
+;; (when (memq window-system '(mac ns x))
+;;   (exec-path-from-shell-initialize)))
 
 (use-package svg-clock)
+
+(use-package which-key)
 
 ;;; org-mode
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
 (use-package org-tree-slide)
 (use-package org-superstar
   :hook
   (org-mode . (lambda () (org-superstar-mode 1))))
+;;; (setq org-log-done t)
 (setq org-agenda-custom-commands
-      '(("ct" tags-todo "TODO=\"TODO\"-job-nabavka"
+      '(("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina"
 	 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
-	("ck" tags-todo "TODO=\"TODO\"-nabavka+kupovina")
-	("cp" tags-todo "TODO=\"PACK\"")
-	("cn" tags-todo "TODO=\"TODO\"+nabavka+kupovina")
-	("cr" tags-todo "TODO=\"TODO\"+reading")
-	("cj" tags-todo "TODO=\"TODO\"+job")))
+	("ck" "Kupovina" tags-todo "TODO=\"TODO\"-nabavka+kupovina")
+	("cn" "Nabavka" tags-todo "TODO=\"TODO\"+nabavka+kupovina")
+	("cp" "Pakovanje" tags-todo "TODO=\"PACK\"")
+	("cr" "Reading" tags-todo "TODO=\"TODO\"+reading")
+	("r" "Reminders"
+	 ((agenda "" ((org-agenda-span 'day))))
+         ((org-agenda-tag-filter '("+reminder"))))
+	("j" "Job" tags-todo "TODO=\"TODO\"+job")))
 
 (use-package wgrep)
 
@@ -188,9 +191,7 @@
 ;;                  nil
 ;;                  (window-parameters (mode-line-format . none)))))
 
-(use-package magit
-  :bind
-  (("C-x g" . magit-status)))
+(use-package magit)
 
 (use-package yasnippet
   :config
@@ -204,10 +205,10 @@
   ;; (company-begin-commands nil) ;; uncomment to disable popup
   :bind
   (:map company-active-map
-	      ("C-n". company-select-next)
-	      ("C-p". company-select-previous)
-	      ("M-<". company-select-first)
-	      ("M->". company-select-last)))
+	("C-n". company-select-next)
+	("C-p". company-select-previous)
+	("M-<". company-select-first)
+	("M->". company-select-last)))
 
 (use-package flycheck
   :config
@@ -220,6 +221,9 @@
   ;; (setq lsp-file-watch-threshold 20000)
   (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   :commands lsp
+  :hook (lsp-mode . (lambda ()
+                      (let ((lsp-keymap-prefix "C-c C-l"))
+                        (lsp-enable-which-key-integration))))
   :custom
   ;; what to use when checking on-save. "check" is default, I prefer clippy
   (lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -237,6 +241,7 @@
   ;; (lsp-rust-analyzer-display-parameter-hints nil)
   ;; (lsp-rust-analyzer-display-reborrow-hints nil)
   ;; (lsp-restart 'auto-restart)
+  :bind-keymap ("C-c C-l" . lsp-command-map)
   )
 
 (use-package lsp-ui
@@ -275,8 +280,8 @@
   (elm-mode . (lambda () (setq-local indent-tabs-mode nil))))
 
 (use-package flycheck-elm
- :hook
- (flycheck-mode . flycheck-elm-setup))
+  :hook
+  (flycheck-mode . flycheck-elm-setup))
 
 ;;; haskell
 (use-package haskell-mode)
@@ -296,7 +301,7 @@
 
   ;; comment to disable rustfmt on save
   ;; (setq rustic-format-trigger 'on-save)
-)
+  )
 
 ;; golang
 (use-package go-mode
@@ -367,4 +372,6 @@
 
 ;;; local defaults
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
+
+(use-package ligature)
 
