@@ -109,6 +109,8 @@
 (use-package svg-clock)
 
 (use-package which-key)
+(which-key-mode)
+(which-key-setup-side-window-right)
 
 ;;; org-mode
 (define-key global-map "\C-cl" 'org-store-link)
