@@ -101,10 +101,10 @@
   :config
   (global-hl-line-mode t))
 
-(use-package exec-path-from-shell)
-;; :config
-;; (when (memq window-system '(mac ns x))
-;;   (exec-path-from-shell-initialize)))
+(use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 
 (use-package svg-clock)
 
