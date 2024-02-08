@@ -121,6 +121,15 @@
   :hook
   (org-mode . (lambda () (org-superstar-mode 1))))
 ;;; (setq org-log-done t)
+(setq org-tag-alist '(
+		      ("kupovina" . ?k)
+		      ("ikea" . ?i)
+		      ("kids" . ?c)
+		      ("nabavka" . ?n)
+		      ("reminder" . ?r)
+		      ("review" . ?v)
+		      ("leto" . ?l)
+		      ("zima" . ?z)))
 (setq org-agenda-custom-commands
       '(("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina"
 	 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
