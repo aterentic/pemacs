@@ -97,6 +97,8 @@
   (setq zone-programs
 	(vconcat zone-programs [zone-nyan zone-sl zone-rainbow])))
 
+(use-package centered-cursor-mode)
+
 ;; highlight the current line
 (use-package hl-line
   :config
@@ -112,6 +114,8 @@
 (use-package which-key)
 (which-key-mode)
 (which-key-setup-side-window-right)
+
+(use-package buffer-move)
 
 ;;; org-mode
 (define-key global-map "\C-cl" 'org-store-link)
