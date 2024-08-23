@@ -126,6 +126,8 @@
   (org-mode . (lambda () (org-superstar-mode 1))))
 ;;; (setq org-log-done t)
 (setq org-tag-alist '(
+		      ("aca" . ?a)
+		      ("putovanje" . ?p)
 		      ("kupovina" . ?k)
 		      ("ikea" . ?i)
 		      ("kids" . ?c)
@@ -141,6 +143,7 @@
 	("cn" "Nabavka" tags-todo "TODO=\"TODO\"+nabavka+kupovina")
 	("cp" "Pakovanje" tags-todo "TODO=\"PACK\"")
 	("cr" "Reading" tags-todo "TODO=\"TODO\"+reading")
+	("p" "Putovanje" tags-todo "TODO=\"TODO\"+putovanje")
 	("r" "Reminders"
 	 ((agenda "" ((org-agenda-span 'day))))
          ((org-agenda-tag-filter '("+reminder"))))
