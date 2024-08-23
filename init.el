@@ -212,6 +212,8 @@
 
 (use-package magit)
 
+(setopt ediff-window-setup-function 'ediff-setup-windows-plain)
+
 (use-package yasnippet
   :config
   (yas-reload-all)
