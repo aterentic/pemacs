@@ -139,8 +139,9 @@
 (setq org-agenda-custom-commands
       '(("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina"
 	 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
-	("ck" "Kupovina" tags-todo "TODO=\"TODO\"-nabavka+kupovina")
-	("cn" "Nabavka" tags-todo "TODO=\"TODO\"+nabavka+kupovina")
+	("ckk" "Kupovina" tags-todo "TODO=\"TODO\"-nabavka+kupovina-review")
+	("ckr" "Kupovina (pregled)" tags-todo "TODO=\"TODO\"+kupovina+review")
+	("ckn" "Kupovina (nabavka)" tags-todo "TODO=\"TODO\"+nabavka+kupovina-review")
 	("cp" "Pakovanje" tags-todo "TODO=\"PACK\"")
 	("cr" "Reading" tags-todo "TODO=\"TODO\"+reading")
 	("p" "Putovanje" tags-todo "TODO=\"TODO\"+putovanje")
