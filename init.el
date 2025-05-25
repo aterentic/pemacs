@@ -63,7 +63,7 @@
 (eval-when-compile
   (require 'use-package))
 
-(require 'use-package-ensure)
+(require 'use-package)
 (setq use-package-always-ensure t)
 
 ;;; themes: solarized-theme, material-theme, monokai-theme
