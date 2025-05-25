@@ -137,7 +137,7 @@
   (org-mode . (lambda () (org-superstar-mode 1))))
 ;;; (setq org-log-done t)
 (setq org-tag-alist '(
-		      ("aca" . ?a)
+		      ("alarm" . ?a)
 		      ("putovanje" . ?p)
 		      ("kupovina" . ?k)
 		      ("ikea" . ?i)
