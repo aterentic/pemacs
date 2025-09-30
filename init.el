@@ -8,6 +8,9 @@
 
 ;;; Code:
 
+;; Reduce garbage collection pauses during startup
+(setq gc-cons-threshold (* 100 1024 1024))
+
 (setq user-full-name    "Aleksandar Terentić"
       user-mail-address "aterentic@pm.me")
 
@@ -22,7 +25,7 @@
 (setq large-file-warning-threshold 100000000)
 
 ;; enable y/n answers
-(fset 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
 
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
@@ -47,8 +50,8 @@
 
 ;; stable picks up only tags from github.com
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '( "jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/") t)
 
 (package-initialize)
@@ -111,9 +114,10 @@
 
 (use-package svg-clock)
 
-(use-package which-key)
-(which-key-mode)
-(which-key-setup-side-window-right)
+(use-package which-key
+  :config
+  (which-key-mode)
+  (which-key-setup-side-window-right))
 
 (use-package buffer-move)
 
@@ -285,7 +289,7 @@
   (lsp-ui-sideline-show-hover nil)
   (lsp-ui-doc-enable nil))
 
-(global-display-line-numbers-mode)
+(add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode 1)))
 (setq display-line-numbers-type 'relative)
 
 (use-package dockerfile-mode)
