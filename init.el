@@ -165,9 +165,11 @@
          ((org-agenda-tag-filter '("+reminder"))))
 	("j" "Job" tags-todo "TODO=\"TODO\"+job")))
 
-(use-package wgrep)
+(use-package wgrep
+  :defer t)
 
 (use-package deft
+  :defer t
   :config
   (setq deft-extensions '("org"))
   (setq deft-use-filename-as-title t)
@@ -179,25 +181,33 @@
   (([(meta shift up)] . move-text-up)
    ([(meta shift down)] . move-text-down)))
 
-(use-package highlight-indentation)
+(use-package highlight-indentation
+  :defer t)
 
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
-(use-package fireplace)
+(use-package fireplace
+  :defer t)
 
-(use-package paredit)
+(use-package paredit
+  :defer t)
 
-(use-package uuidgen)
+(use-package uuidgen
+  :defer t)
 
-(use-package tagedit)
+(use-package tagedit
+  :defer t)
 
-(use-package htmlize)
+(use-package htmlize
+  :defer t)
 
-(use-package dedicated)
+(use-package dedicated
+  :defer t)
 
-(use-package pdf-tools)
+(use-package pdf-tools
+  :defer t)
 
 (use-package helm
   :bind
@@ -226,7 +236,15 @@
 ;;                  nil
 ;;                  (window-parameters (mode-line-format . none)))))
 
-(use-package magit)
+(use-package copilot
+  :ensure t
+  :hook (prog-mode . copilot-mode)
+  :config
+  (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion))
+
+(use-package magit
+  :defer t)
 
 (setopt ediff-window-setup-function 'ediff-setup-windows-plain)
 
@@ -237,6 +255,8 @@
   (add-hook 'text-mode-hook 'yas-minor-mode))
 
 (use-package company
+  :config
+  (add-hook 'after-init-hook 'global-company-mode)
   :custom
   (company-idle-delay 0.25) ;; how long to wait until popup
   ;; (company-begin-commands nil) ;; uncomment to disable popup
@@ -354,7 +374,8 @@
   (setq lsp-eldoc-render-all t)
   (setq compile-command "echo Building...; go build -v -o /dev/null; echo Testing...; go test -v; echo Linter...; golint")
   (setq compilation-read-command nil))
-(use-package gotest)
+(use-package gotest
+  :defer t)
 
 ;;; javascript
 (use-package web-mode
@@ -384,7 +405,8 @@
   (js2-mode . ac-js2-mode))
 
 ;;; typescript
-(use-package tide)
+(use-package tide
+  :defer t)
 
 ;;; python
 (use-package elpy
@@ -410,7 +432,10 @@
 ;;; local defaults
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
 
-(use-package ligature)
+(use-package ligature
+  :defer t)
 
-(use-package chatgpt :ensure t)
+(use-package chatgpt
+  :defer t
+  :ensure t)
 
