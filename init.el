@@ -142,11 +142,11 @@
 ;;; (setq org-log-done t)
 (setq org-tag-alist '(
 		      ("alarm" . ?a)
-		      ("putovanje" . ?p)
 		      ("kupovina" . ?k)
 		      ("ikea" . ?i)
 		      ("kids" . ?c)
 		      ("nabavka" . ?n)
+		      ("plan" . ?p)
 		      ("reminder" . ?r)
 		      ("review" . ?v)
 		      ("leto" . ?l)
@@ -159,7 +159,7 @@
 	("ckn" "Kupovina (nabavka)" tags-todo "TODO=\"TODO\"+nabavka+kupovina-review")
 	("cp" "Pakovanje" tags-todo "TODO=\"PACK\"")
 	("cr" "Reading" tags-todo "TODO=\"TODO\"+reading")
-	("p" "Putovanje" tags-todo "TODO=\"TODO\"+putovanje")
+	("p" "Putovanje TODO/Pack" tags-todo "+putovanje+TODO={TODO\\|PACK}")
 	("r" "Reminders"
 	 ((agenda "" ((org-agenda-span 'day))))
          ((org-agenda-tag-filter '("+reminder"))))
