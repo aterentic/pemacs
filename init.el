@@ -284,18 +284,18 @@
   (add-hook 'prog-mode-hook 'yas-minor-mode)
   (add-hook 'text-mode-hook 'yas-minor-mode))
 
-(use-package company
-  :config
-  (add-hook 'after-init-hook 'global-company-mode)
-  :custom
-  (company-idle-delay 0.25) ;; how long to wait until popup
-  ;; (company-begin-commands nil) ;; uncomment to disable popup
-  :bind
-  (:map company-active-map
-	("C-n". company-select-next)
-	("C-p". company-select-previous)
-	("M-<". company-select-first)
-	("M->". company-select-last)))
+;; (use-package company
+;;   :config
+;;   (add-hook 'after-init-hook 'global-company-mode)
+;;   :custom
+;;   (company-idle-delay 0.25) ;; how long to wait until popup
+;;   ;; (company-begin-commands nil) ;; uncomment to disable popup
+;;   :bind
+;;   (:map company-active-map
+;; 	("C-n". company-select-next)
+;; 	("C-p". company-select-previous)
+;; 	("M-<". company-select-first)
+;; 	("M->". company-select-last)))
 
 (use-package flycheck
   :config
