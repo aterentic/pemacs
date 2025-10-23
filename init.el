@@ -69,6 +69,11 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; Use a separate file for custom variables
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
 ;;; themes: solarized-theme, material-theme, monokai-theme
 (use-package monokai-theme
   :config
@@ -466,4 +471,3 @@
 (use-package chatgpt
   :defer t
   :ensure t)
-
