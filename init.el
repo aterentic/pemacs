@@ -147,16 +147,17 @@
 ;;; org-mode
 (use-package org
   :bind (("C-c l" . org-store-link)
-         ("C-c a" . org-agenda)
-         :map org-agenda-mode-map
-         ("G" . reaktor/org-agenda-reload-from-disk))
+         ("C-c a" . org-agenda))
   :config
   (defun reaktor/org-agenda-reload-from-disk ()
     "Kill all Org buffers and reload agenda from disk."
     (interactive)
     (dolist (buf (org-buffer-list))
       (kill-buffer buf))
-    (org-agenda-list)))
+    (org-agenda-list))
+  (with-eval-after-load 'org-agenda
+    (define-key org-agenda-mode-map (kbd "G") #'reaktor/org-agenda-reload-from-disk)))
+
 (use-package org-tree-slide)
 (use-package org-superstar
   :hook
@@ -317,6 +318,7 @@
   (lsp-eldoc-render-all t)
   (lsp-idle-delay 0.6)
   (lsp-response-timeout 180)
+  (lsp-warn-no-matched-clients nil)
   ;; This controls the overlays that display type and other hints inline. Enable
   ;; / disable as you prefer. Well require a `lsp-workspace-restart' to have an
   ;; effect on open projects.
@@ -442,11 +444,13 @@
         python-shell-interpreter-args "-i"))
 
 ;; ;;; clojure
-;; (use-package clojure-mode)
-;; (use-package cider)
+(use-package clojure-mode
+  :defer t)
+(use-package cider
+  :defer t)
 
-
-(setq grep-find-ignored-directories (append grep-find-ignored-directories '("node_modules")))
+(with-eval-after-load 'grep
+  (add-to-list 'grep-find-ignored-directories "node_modules"))
 
 ;;; local defaults
 (if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
