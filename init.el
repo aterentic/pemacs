@@ -108,11 +108,12 @@
 
 ;;; nyan-mode - nyan cat in the modeline
 (use-package nyan-mode
-  :config
-  (nyan-mode 1)
+  :init
   (setq nyan-animate-nyancat t
-        nyan-wavy-trail t
-        nyan-minimum-window-width 40))
+        nyan-wavy-trail nil
+        nyan-minimum-window-width 40)
+  :config
+  (nyan-mode 1))
 
 ;;; zone
 (use-package zone-nyan)
