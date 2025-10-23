@@ -76,19 +76,43 @@
   (set-face-background 'default "#1f201b"))
 
 ;;; modeline
-(use-package powerline
+
+(line-number-mode t)
+(column-number-mode t)
+(size-indication-mode t)
+
+(use-package display-line-numbers
+  :ensure nil
   :config
-  (powerline-default-theme)
-  (display-time-mode t)
-  (setq display-time-day-and-date t)
-  (line-number-mode t)
-  (column-number-mode t)
-  (size-indication-mode t))
+  (global-display-line-numbers-mode 1))
+
+(use-package time
+  :ensure nil
+  :config
+  (setq display-time-24hr-format t
+        display-time-day-and-date t
+        display-time-default-load-average nil)
+  (display-time-mode 1))
+
+;;; moody - beautiful ribbon-style modeline
+(use-package moody
+  :config
+  (moody-replace-mode-line-front-space)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
+
+;;; minions - hide minor modes in a menu
+(use-package minions
+  :config
+  (minions-mode 1))
+
+;;; nyan-mode - nyan cat in the modeline
 (use-package nyan-mode
   :config
   (nyan-mode 1)
-  (nyan-toggle-wavy-trail)
-  (nyan-start-animation))
+  (setq nyan-animate-nyancat t
+        nyan-wavy-trail t
+        nyan-minimum-window-width 40))
 
 ;;; zone
 (use-package zone-nyan)
