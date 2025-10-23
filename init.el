@@ -301,7 +301,8 @@
   :config
   (global-flycheck-mode))
 
-(use-package projectile)
+(use-package projectile
+  :defer t)
 
 (use-package lsp-mode
   :config
@@ -348,9 +349,11 @@
 
 (use-package csv-mode)
 
-(use-package yaml-mode)
+(use-package yaml-mode
+  :defer t)
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :defer t)
 
 (use-package json-mode
   :config
