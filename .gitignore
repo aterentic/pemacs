@@ -1,4 +1,6 @@
 default.el
+early-init-local.el
+custom.el
 ac-comphist.dat
 auto-save-list
 bookmarks

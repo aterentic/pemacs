@@ -8,9 +8,6 @@
 
 ;;; Code:
 
-;; Reduce garbage collection pauses during startup
-(setq gc-cons-threshold (* 100 1024 1024))
-
 (setq user-full-name    "Aleksandar Terentić"
       user-mail-address "aterentic@pm.me")
 
