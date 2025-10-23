@@ -1,4 +1,4 @@
-;;; package --- init.el
+;;; package --- init.el -*- lexical-binding: t -*-
 
 ;; Author: Aleksandar Terentić
 
@@ -138,8 +138,6 @@
   :config
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
-
-(use-package svg-clock)
 
 (use-package which-key
   :config
@@ -429,9 +427,6 @@
   :hook
   (js2-mode . prettier-js-mode)
   (web-mode . prettier-js-mode))
-(use-package ac-js2
-  :hook
-  (js2-mode . ac-js2-mode))
 
 ;;; typescript
 (use-package tide
@@ -464,6 +459,4 @@
 (use-package ligature
   :defer t)
 
-(use-package chatgpt
-  :defer t
-  :ensure t)
+;;; init.el ends here
