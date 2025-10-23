@@ -110,16 +110,21 @@
   (nyan-mode 1))
 
 ;;; zone
-(use-package zone-nyan)
-(use-package zone-sl)
-(use-package zone-rainbow)
+(use-package zone-nyan
+  :defer t)
+(use-package zone-sl
+  :defer t)
+(use-package zone-rainbow
+  :defer t)
 (use-package zone
+  :defer t
   :config
   (zone-when-idle 180)
   (setq zone-programs
 	(vconcat zone-programs [zone-nyan zone-sl zone-rainbow])))
 
-(use-package centered-cursor-mode)
+(use-package centered-cursor-mode
+  :defer t)
 
 ;; highlight the current line
 (use-package hl-line
@@ -136,7 +141,8 @@
   (which-key-mode)
   (which-key-setup-side-window-right))
 
-(use-package buffer-move)
+(use-package buffer-move
+  :defer t)
 
 ;;; org-mode
 (use-package org
@@ -360,11 +366,14 @@
   (elm-mode . (lambda () (setq-local indent-tabs-mode nil))))
 
 ;;; haskell
-(use-package haskell-mode)
-(use-package tidal)
+(use-package haskell-mode
+  :defer t)
+(use-package tidal
+  :defer t)
 
 ;;; idris
-(use-package idris-mode)
+(use-package idris-mode
+  :defer t)
 
 (use-package rustic
   :ensure
