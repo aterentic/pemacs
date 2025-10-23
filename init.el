@@ -63,7 +63,6 @@
 (eval-when-compile
   (require 'use-package))
 
-(require 'use-package)
 (setq use-package-always-ensure t)
 
 ;; Use a separate file for custom variables
@@ -307,7 +306,7 @@
 
 (use-package lsp-mode
   :config
-  ;; (setq lsp-file-watch-threshold 20000)
+  (setq lsp-file-watch-threshold 20000)
   (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   :commands lsp
   :hook (lsp-mode . (lambda ()
