@@ -11,14 +11,6 @@
 (setq user-full-name    "Aleksandar Terentić"
       user-mail-address "aterentic@pm.me")
 
-(setq inhibit-startup-screen t)
-(setq visible-bell t)
-;;; (setq ring-bell-function 'ignore)
-
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-
 (setq large-file-warning-threshold 100000000)
 
 ;; enable y/n answers

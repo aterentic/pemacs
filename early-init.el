@@ -6,6 +6,13 @@
 
 ;;; Code:
 
+;; UI tweaks - disable before GUI starts to prevent flashing
+(setq inhibit-startup-screen t)
+(setq visible-bell t)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+
 ;; GC optimization for startup - maximize threshold during init
 (setq gc-cons-threshold most-positive-fixnum)
 
