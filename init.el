@@ -301,7 +301,7 @@
   :bind (:map flymake-mode-map
               ("C-c ! n" . flymake-goto-next-error)
               ("C-c ! p" . flymake-goto-prev-error)
-              ("C-c ! l" . flymake-show-diagnostics-buffer)))
+              ("C-c ! l" . flymake-show-buffer-diagnostics)))
 
 (use-package projectile
   :defer t)
