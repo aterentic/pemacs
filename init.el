@@ -297,9 +297,13 @@
 ;; 	("M-<". company-select-first)
 ;; 	("M->". company-select-last)))
 
-(use-package flycheck
-  :config
-  (global-flycheck-mode))
+(use-package flymake
+  :ensure nil
+  :hook (prog-mode . flymake-mode)
+  :bind (:map flymake-mode-map
+              ("C-c ! n" . flymake-goto-next-error)
+              ("C-c ! p" . flymake-goto-prev-error)
+              ("C-c ! l" . flymake-show-diagnostics-buffer)))
 
 (use-package projectile
   :defer t)
@@ -366,10 +370,6 @@
   (elm-mode . lsp-deferred)
   (elm-mode . (lambda () (setq-local indent-tabs-mode nil))))
 
-(use-package flycheck-elm
-  :hook
-  (flycheck-mode . flycheck-elm-setup))
-
 ;;; haskell
 (use-package haskell-mode)
 (use-package tidal)
@@ -411,7 +411,6 @@
 (use-package web-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
   :hook
   (web-mode . (lambda () (setq-local tab-width 4) (setq web-mode-code-indent-offset 2))))
 
