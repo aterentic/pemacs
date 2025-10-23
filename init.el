@@ -433,18 +433,13 @@
   :defer t)
 
 ;;; python
-(use-package elpy
+(use-package python
+  :ensure nil
+  :hook (python-mode . lsp-deferred)
   :config
-  (elpy-enable)
   (setenv "IPY_TEST_SIMPLE_PROMPT" "1")
-  (setq python-shell-interpreter "ipython3" python-shell-interpreter-args "-i")
-  (setq elpy-rpc-python-command "python3")
-  (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
-
-(use-package py-autopep8
-  :hook
-  (elpy-mode . py-autopep8-enable-on-save))
+  (setq python-shell-interpreter "ipython3"
+        python-shell-interpreter-args "-i"))
 
 ;; ;;; clojure
 ;; (use-package clojure-mode)
