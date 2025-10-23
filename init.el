@@ -85,8 +85,9 @@
 
 (use-package display-line-numbers
   :ensure nil
+  :hook (prog-mode . display-line-numbers-mode)
   :config
-  (global-display-line-numbers-mode 1))
+  (setq display-line-numbers-type 'relative))
 
 (use-package time
   :ensure nil
@@ -279,10 +280,10 @@
 (setopt ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (use-package yasnippet
+  :hook ((prog-mode . yas-minor-mode)
+         (text-mode . yas-minor-mode))
   :config
-  (yas-reload-all)
-  (add-hook 'prog-mode-hook 'yas-minor-mode)
-  (add-hook 'text-mode-hook 'yas-minor-mode))
+  (yas-reload-all))
 
 ;; (use-package company
 ;;   :config
@@ -339,9 +340,6 @@
   (lsp-ui-peek-always-show t)
   (lsp-ui-sideline-show-hover nil)
   (lsp-ui-doc-enable nil))
-
-(add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode 1)))
-(setq display-line-numbers-type 'relative)
 
 (use-package dockerfile-mode)
 
