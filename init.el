@@ -260,6 +260,9 @@
 ;;                  nil
 ;;                  (window-parameters (mode-line-format . none)))))
 
+(setq-default indent-tabs-mode nil
+		      tab-width 4)
+
 (use-package copilot
   :ensure t
   :hook (prog-mode . copilot-mode)
