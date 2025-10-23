@@ -148,8 +148,10 @@
 
 ;;; org-mode
 (use-package org
-  :hook ((org-agenda-mode . (lambda ()
-                              (local-set-key (kbd "G") #'reaktor/org-agenda-reload-from-disk))))
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         :map org-agenda-mode-map
+         ("G" . reaktor/org-agenda-reload-from-disk))
   :config
   (defun reaktor/org-agenda-reload-from-disk ()
     "Kill all Org buffers and reload agenda from disk."
@@ -157,9 +159,6 @@
     (dolist (buf (org-buffer-list))
       (kill-buffer buf))
     (org-agenda-list)))
-
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
 (use-package org-tree-slide)
 (use-package org-superstar
   :hook
