@@ -191,6 +191,48 @@
 (use-package wgrep
   :defer t)
 
+;;; Calendar configuration for Belgrade, Serbia
+(use-package calendar
+  :ensure nil
+  :defer t
+  :custom
+  (calendar-latitude 44.8167)
+  (calendar-longitude 20.4667)
+  (calendar-location-name "Belgrade, Serbia")
+  (calendar-week-start-day 1) ; Week starts on Monday (European standard)
+  (calendar-date-style 'european)
+  (calendar-time-zone 60)  ; CET (UTC+1)
+  (calendar-standard-time-zone-name "CET")
+  (calendar-daylight-time-zone-name "CEST")
+
+  ;; Show only Serbian holidays (disable default US/Christian holidays)
+  (holiday-general-holidays nil)  ; Disable general holidays
+  (holiday-christian-holidays nil)  ; Disable Christian holidays
+  (holiday-hebrew-holidays nil)  ; Disable Hebrew holidays
+  (holiday-islamic-holidays nil)  ; Disable Islamic holidays
+  (holiday-bahai-holidays nil)  ; Disable Bahai holidays
+  (holiday-oriental-holidays nil)  ; Disable Oriental holidays
+  (holiday-solar-holidays nil)  ; Disable solar holidays
+
+  ;; Serbian holidays only
+  (holiday-local-holidays
+   '((holiday-fixed 1 1 "Nova Godina")
+     (holiday-fixed 1 2 "Nova Godina (drugi dan)")
+     (holiday-fixed 1 7 "Božić (pravoslavni)")
+     (holiday-fixed 2 15 "Dan državnosti Srbije")
+     (holiday-fixed 2 16 "Dan državnosti Srbije (drugi dan)")
+     (holiday-easter-etc -2 "Veliki Petak (pravoslavni)")
+     (holiday-easter-etc 0 "Vaskrs (pravoslavni)")
+     (holiday-easter-etc 1 "Vaskršnji Ponedeljak (pravoslavni)")
+     (holiday-fixed 5 1 "Praznik rada")
+     (holiday-fixed 5 2 "Praznik rada (drugi dan)")
+     (holiday-fixed 11 11 "Dan primirja u Prvom svetskom ratu")))
+  ;; Show holidays
+  (calendar-mark-holidays-flag t)
+  :config
+  ;; Mark today
+  (add-hook 'calendar-today-visible-hook 'calendar-mark-today))
+
 (use-package deft
   :defer t
   :config
