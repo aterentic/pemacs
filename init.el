@@ -307,6 +307,8 @@
 (use-package copilot
   :ensure t
   :hook (prog-mode . copilot-mode)
+  :custom
+  (copilot-indent-offset-warning-disable t)
   :config
   (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion))
