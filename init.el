@@ -312,7 +312,9 @@
   (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion))
 
 (use-package magit
-  :defer t)
+  :defer t
+  :bind (:map magit-diff-mode-map
+        ("o" . magit-diff-visit-worktree-file-other-window)))
 
 (setopt ediff-window-setup-function 'ediff-setup-windows-plain)
 
