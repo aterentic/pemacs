@@ -274,32 +274,60 @@
 (use-package pdf-tools
   :defer t)
 
-(use-package helm
+;;; Vertico - vertical completion UI
+(use-package vertico
+  :init
+  (vertico-mode)
+  :custom
+  (vertico-cycle t)
+  (vertico-resize nil))
+
+;;; Orderless - flexible completion matching
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+;;; Consult - enhanced commands with preview
+(use-package consult
   :bind
-  (("M-x" . helm-M-x)
-   ("C-x r b" . helm-filtered-bookmarks)
-   ("C-x C-f" . helm-find-files))
+  (("C-s" . consult-line)           ; Search in buffer
+   ("C-x b" . consult-buffer)       ; Enhanced buffer switching
+   ("C-x r b" . consult-bookmark)   ; Bookmarks
+   ("M-g g" . consult-goto-line)    ; Go to line
+   ("M-g M-g" . consult-goto-line)
+   ("M-s r" . consult-ripgrep)      ; Ripgrep search
+   ("M-s f" . consult-find)         ; Find files
+   ("M-s g" . consult-grep)         ; Grep
+   ("M-y" . consult-yank-pop))      ; Enhanced yank-pop
   :config
-  (helm-mode 1))
+  ;; Use Consult for xref
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref))
 
-;; (use-package marginalia
-;;   :config
-;;   (marginalia-mode))
+;;; Marginalia - rich annotations in minibuffer
+(use-package marginalia
+  :init
+  (marginalia-mode))
 
-;; (use-package embark
-;;   :bind
-;;   (("C-;" . embark-act)         ;; pick some comfortable binding
-;;    ("C-:" . embark-dwim)        ;; good alternative: M-.
-;;    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-;;   :init
-;;   ;; Optionally replace the key help with a completing-read interface
-;;   (setq prefix-help-command #'embark-prefix-help-command)
-;;   :config
-;;   ;; Hide the mode line of the Embark live/completions buffers
-;;   (add-to-list 'display-buffer-alist
-;;                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-;;                  nil
-;;                  (window-parameters (mode-line-format . none)))))
+;;; Embark - contextual actions
+(use-package embark
+  :bind
+  (("C-." . embark-act)             ; contextual actions
+   ("C-;" . embark-dwim)            ; "do what I mean"
+   ("C-h B" . embark-bindings))     ; describe bindings
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;;; Embark-Consult integration
+(use-package embark-consult
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (setq-default indent-tabs-mode nil
 		      tab-width 4)
