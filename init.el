@@ -387,7 +387,6 @@
   (setq lsp-disabled-clients '(semgrep-ls))
   :custom
   (lsp-completion-provider :capf)
-  (lsp-keymap-prefix "C-c C-l")
   (lsp-rust-analyzer-cargo-watch-command "clippy")
   (lsp-rust-analyzer-cargo-all-targets t)
   (lsp-rust-analyzer-proc-macro-enable t)
