@@ -62,11 +62,10 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-;;; themes: solarized-theme, material-theme, monokai-theme
-(use-package monokai-theme
+;; ;;; themes: doom-themes, solarized-theme, zenburn-theme
+(use-package doom-themes
   :config
-  (load-theme 'monokai t)
-  (set-face-background 'default "#1f201b"))
+  (load-theme 'doom-monokai-pro t))
 
 ;;; modeline
 
