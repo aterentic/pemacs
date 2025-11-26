@@ -349,22 +349,10 @@
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
-         (text-mode . yas-minor-mode))
-  :config
-  (yas-reload-all))
+         (text-mode . yas-minor-mode)))
 
-;; (use-package company
-;;   :config
-;;   (add-hook 'after-init-hook 'global-company-mode)
-;;   :custom
-;;   (company-idle-delay 0.25) ;; how long to wait until popup
-;;   ;; (company-begin-commands nil) ;; uncomment to disable popup
-;;   :bind
-;;   (:map company-active-map
-;; 	("C-n". company-select-next)
-;; 	("C-p". company-select-previous)
-;; 	("M-<". company-select-first)
-;; 	("M->". company-select-last)))
+(use-package yasnippet-snippets
+  :after yasnippet)
 
 (use-package flymake
   :ensure nil
