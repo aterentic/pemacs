@@ -328,6 +328,18 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+;;; Corfu - in-buffer completion popup
+(use-package corfu
+  :init
+  (global-corfu-mode))
+
+;;; Cape - completion-at-point extensions
+(use-package cape
+  :init
+  ;; Add completion backends
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev))
+
 (setq-default indent-tabs-mode nil
 		      tab-width 4)
 
@@ -366,33 +378,24 @@
   :defer t)
 
 (use-package lsp-mode
+  :commands lsp
+  :hook ((lsp-mode . lsp-enable-which-key-integration)
+         (lsp-mode . lsp-ui-mode))
   :config
   (setq lsp-file-watch-threshold 20000)
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-  :commands lsp
-  :hook (lsp-mode . (lambda ()
-                      (let ((lsp-keymap-prefix "C-c C-l"))
-                        (lsp-enable-which-key-integration))))
+  ;; Disable semgrep-ls (static analysis tool)
+  (setq lsp-disabled-clients '(semgrep-ls))
   :custom
-  ;; what to use when checking on-save. "check" is default, I prefer clippy
+  (lsp-completion-provider :capf)
+  (lsp-keymap-prefix "C-c C-l")
   (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-rust-analyzer-cargo-all-targets t)
+  (lsp-rust-analyzer-proc-macro-enable t)
+  (lsp-rust-analyzer-cargo-load-out-dirs-from-check t)
   (lsp-eldoc-render-all t)
   (lsp-idle-delay 0.6)
   (lsp-response-timeout 180)
-  (lsp-warn-no-matched-clients nil)
-  ;; This controls the overlays that display type and other hints inline. Enable
-  ;; / disable as you prefer. Well require a `lsp-workspace-restart' to have an
-  ;; effect on open projects.
-  ;; (lsp-rust-analyzer-server-display-inlay-hints t)
-  ;; (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-  ;; (lsp-rust-analyzer-display-chaining-hints t)
-  ;; (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-  ;; (lsp-rust-analyzer-display-closure-return-type-hints t)
-  ;; (lsp-rust-analyzer-display-parameter-hints nil)
-  ;; (lsp-rust-analyzer-display-reborrow-hints nil)
-  ;; (lsp-restart 'auto-restart)
-  :bind-keymap ("C-c C-l" . lsp-command-map)
-  )
+  (lsp-warn-no-matched-clients nil))
 
 (use-package lsp-ui
   :ensure
@@ -401,6 +404,12 @@
   (lsp-ui-peek-always-show t)
   (lsp-ui-sideline-show-hover nil)
   (lsp-ui-doc-enable nil))
+
+(use-package consult-lsp
+  :after (consult lsp-mode)
+  :bind (:map lsp-mode-map
+              ("C-c l s" . consult-lsp-symbols)
+              ("C-c l d" . consult-lsp-diagnostics)))
 
 (use-package dockerfile-mode)
 
