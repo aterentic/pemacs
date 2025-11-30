@@ -157,11 +157,11 @@
   (with-eval-after-load 'org-agenda
     (define-key org-agenda-mode-map (kbd "G") #'reaktor/org-agenda-reload-from-disk)))
 
-(use-package org-tree-slide)
-(use-package org-superstar
+(use-package org-modern
   :hook
-  (org-mode . (lambda () (org-superstar-mode 1))))
-;;; (setq org-log-done t)
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda))
+
 (setq org-tag-alist '(
 		      ("alarm" . ?a)
 		      ("reminder" . ?r)
