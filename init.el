@@ -483,20 +483,20 @@
 
 ;; golang
 (use-package go-mode
-  :bind
-  ;; TODO, local: ("M-," . compile)
-  ;; TODO, local: ("M-." . godef-jump)
   :hook
   (go-mode . lsp-deferred)
-  ;; TODO, make it go-mode local: (before-save . (lambda () (lsp-format-buffer) (lsp-organize-imports)))
+  (before-save . gofmt-before-save)
   :config
   (setq lsp-gopls-staticcheck t)
-  (setq lsp-gopls-complete-unimported t)
-  (setq lsp-eldoc-render-all t)
-  (setq compile-command "echo Building...; go build -v -o /dev/null; echo Testing...; go test -v; echo Linter...; golint")
-  (setq compilation-read-command nil))
+  (setq lsp-gopls-complete-unimported t))
+
 (use-package gotest
-  :defer t)
+  :defer t
+  :after go-mode
+  :bind (:map go-mode-map
+              ("C-c t f" . go-test-current-file)
+              ("C-c t t" . go-test-current-test)
+              ("C-c t p" . go-test-current-project)))
 
 ;;; javascript
 (use-package web-mode
