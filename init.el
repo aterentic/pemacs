@@ -369,6 +369,20 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+;;; Consult-dir - directory navigation with Vertico
+(use-package consult-dir
+  :bind (("C-x C-d" . consult-dir)
+         :map vertico-map
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file)))
+
+;;; Consult-projectile bridge - projectile integration with Consult
+(use-package consult-projectile
+  :after (consult projectile)
+  :bind (("C-c p p" . consult-projectile-switch-project)
+         ("C-c p f" . consult-projectile-find-file)
+         ("C-c p d" . consult-projectile-find-dir)))
+
 ;;; Corfu - in-buffer completion popup
 (use-package corfu
   :init
