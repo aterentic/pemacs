@@ -133,7 +133,21 @@
 (use-package which-key
   :config
   (which-key-mode)
-  (which-key-setup-side-window-right))
+  (which-key-setup-side-window-right)
+  :custom
+  (which-key-idle-delay 0.3))
+
+(use-package savehist
+  :ensure nil
+  :init
+  (savehist-mode 1))
+
+(use-package recentf
+  :ensure nil
+  :init
+  (recentf-mode 1)
+  :custom
+  (recentf-max-saved-items 100))
 
 (use-package buffer-move
   :defer t)

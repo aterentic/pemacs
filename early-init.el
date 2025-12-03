@@ -13,6 +13,9 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 
+;; Enable smooth pixel-level scrolling (Emacs 29+)
+(pixel-scroll-precision-mode 1)
+
 ;; GC optimization for startup - maximize threshold during init
 (setq gc-cons-threshold most-positive-fixnum)
 
