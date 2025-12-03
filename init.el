@@ -57,6 +57,50 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+;;; Tree-sitter configuration
+(setq treesit-language-source-alist
+      '((rust "https://github.com/tree-sitter/tree-sitter-rust")
+        (go "https://github.com/tree-sitter/tree-sitter-go")
+        (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        (python "https://github.com/tree-sitter/tree-sitter-python")
+        (json "https://github.com/tree-sitter/tree-sitter-json")))
+
+;; Auto-install grammars on first use
+(dolist (lang treesit-language-source-alist)
+  (unless (treesit-language-available-p (car lang))
+    (treesit-install-language-grammar (car lang))))
+
+;; Remap modes to use tree-sitter (Rust uses rustic-mode which works well as-is)
+(setq major-mode-remap-alist
+      '((go-mode . go-ts-mode)
+        (js-mode . js-ts-mode)
+        (js2-mode . js-ts-mode)
+        (typescript-mode . typescript-ts-mode)
+        (python-mode . python-ts-mode)
+        (json-mode . json-ts-mode)))
+
+;; Configure LSP for tree-sitter modes
+(with-eval-after-load 'lsp-mode
+  (dolist (mode-id '((go-ts-mode . "go")
+                     (python-ts-mode . "python")
+                     (js-ts-mode . "javascript")
+                     (typescript-ts-mode . "typescript")))
+    (add-to-list 'lsp-language-id-configuration mode-id)))
+
+;; Enable LSP and formatting for tree-sitter modes
+(defun my/setup-go-ts-mode ()
+  "Setup for go-ts-mode."
+  (lsp-deferred)
+  (add-hook 'before-save-hook #'gofmt-before-save nil t))
+
+(add-hook 'go-ts-mode-hook #'my/setup-go-ts-mode)
+(add-hook 'python-ts-mode-hook #'lsp-deferred)
+(add-hook 'js-ts-mode-hook #'lsp-deferred)
+(add-hook 'typescript-ts-mode-hook #'lsp-deferred)
+
 ;; ;;; themes: doom-themes, solarized-theme, zenburn-theme
 (use-package doom-themes
   :config
