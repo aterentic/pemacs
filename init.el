@@ -19,8 +19,11 @@
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
-(global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+;; Global keybindings using use-package
+(use-package emacs
+  :ensure nil
+  :bind (("M-o" . other-window)
+         ("C-x C-b" . ibuffer)))
 ;;; enable subword-mode for all programming langs
 (add-hook 'prog-mode-hook 'subword-mode)
 
@@ -45,13 +48,8 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-;;; use package
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(eval-when-compile
-  (require 'use-package))
-
+;;; use package (built-in since Emacs 29)
+(require 'use-package)
 (setq use-package-always-ensure t)
 
 ;; Use a separate file for custom variables
