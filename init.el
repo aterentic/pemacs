@@ -554,7 +554,14 @@
   (add-to-list 'grep-find-ignored-directories "node_modules"))
 
 (use-package ligature
-  :defer t)
+  :config
+  ;; Enable all Iosevka ligatures in programming modes
+  (ligature-set-ligatures 'prog-mode '("<---" "<--"  "<<-" "<-" "->" "-->" "--->" "<->" "<-->" "<--->" "<---->" "<!--"
+                                       "<==" "<===" "<=" "=>" "=>>" "==>" "===>" ">=" "<=>" "<==>" "<===>" "<====>" "<!---"
+                                       "<~~" "<~" "~>" "~~>" "::" ":::" "==" "!=" "===" "!=="
+                                       ":=" ":-" ":+" "<*" "<*>" "*>" "<|" "<|>" "|>" "+:" "-:" "=:" "<******>" "++" "+++"))
+  ;; Enable the mode
+  (global-ligature-mode t))
 
 ;;; Load machine-specific settings if they exist
 (let ((local-init (expand-file-name "init-local.el" user-emacs-directory)))
