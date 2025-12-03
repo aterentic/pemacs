@@ -144,9 +144,62 @@
   :defer t)
 
 ;;; org-mode
+
+;; Org base directory - can be overridden in early-init-local.el
+(unless (boundp 'reaktor/org-base-dir)
+  (setq reaktor/org-base-dir "~/org/"))
+
+;; Derived org paths
+(setq reaktor/org-private-dir (expand-file-name "private/" reaktor/org-base-dir))
+(setq reaktor/org-shared-dir (expand-file-name "shared/" reaktor/org-base-dir))
+(setq reaktor/org-templates-dir (expand-file-name "templates/" reaktor/org-base-dir))
+
+;; Org agenda files
+(setq org-agenda-files
+      (append
+       (directory-files reaktor/org-private-dir t "\\.org$")
+       (directory-files reaktor/org-shared-dir t "\\.org$")))
+
+;; Org capture templates
+(setq org-capture-templates
+      `(("v" "Vacation/Trip" entry
+         (file+headline ,(expand-file-name "putovanja.org" reaktor/org-shared-dir) "2026")
+         (file ,(expand-file-name "vacation.org" reaktor/org-templates-dir))
+         :empty-lines 1)
+        ("e" "Excursion/Day Trip" entry
+         (file+headline ,(expand-file-name "putovanja.org" reaktor/org-shared-dir) "Izlet")
+         (file ,(expand-file-name "excursion.org" reaktor/org-templates-dir))
+         :empty-lines 1)))
+
+;; Org tag list
+(setq org-tag-alist '(
+		      ("alarm" . ?a)
+		      ("reminder" . ?r)
+		      ("review" . ?v)
+		      ("kupovina" . ?k)
+		      ("nabavka" . ?n)
+		      ("kids" . ?c)
+		      ("plan" . ?p)))
+
+;; Org agenda custom commands
+(setq org-agenda-custom-commands
+      '(("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina"
+	 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
+	("ckk" "Kupovina" tags-todo "TODO=\"TODO\"-nabavka+kupovina-review")
+	("ckr" "Kupovina (pregled)" tags-todo "TODO=\"TODO\"+kupovina+review")
+	("ckn" "Kupovina (nabavka)" tags-todo "TODO=\"NEED\"+nabavka+kupovina")
+	("cp" "Pakovanje" tags-todo "TODO=\"PACK\"")
+	("cr" "Reading" tags-todo "TODO=\"TODO\"+reading")
+	("p" "Putovanje TODO/Pack" tags-todo "+putovanje+TODO={TODO\\|PACK}")
+	("r" "Reminders"
+	 ((agenda "" ((org-agenda-span 'day))))
+         ((org-agenda-tag-filter '("+reminder"))))
+	("j" "Job" tags-todo "TODO=\"TODO\"+job")))
+
 (use-package org
   :bind (("C-c l" . org-store-link)
-         ("C-c a" . org-agenda))
+         ("C-c a" . org-agenda)
+         ("C-c c" . org-capture))
   :config
   (defun reaktor/org-agenda-reload-from-disk ()
     "Kill all Org buffers and reload agenda from disk."
@@ -161,28 +214,6 @@
   :hook
   (org-mode . org-modern-mode)
   (org-agenda-finalize . org-modern-agenda))
-
-(setq org-tag-alist '(
-		      ("alarm" . ?a)
-		      ("reminder" . ?r)
-		      ("review" . ?v)
-		      ("kupovina" . ?k)
-		      ("nabavka" . ?n)
-		      ("kids" . ?c)
-		      ("plan" . ?p)))
-(setq org-agenda-custom-commands
-      '(("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina"
-	 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
-	("ckk" "Kupovina" tags-todo "TODO=\"TODO\"-nabavka+kupovina-review")
-	("ckr" "Kupovina (pregled)" tags-todo "TODO=\"TODO\"+kupovina+review")
-	("ckn" "Kupovina (nabavka)" tags-todo "TODO=\"NEED\"+nabavka+kupovina")
-	("cp" "Pakovanje" tags-todo "TODO=\"PACK\"")
-	("cr" "Reading" tags-todo "TODO=\"TODO\"+reading")
-	("p" "Putovanje TODO/Pack" tags-todo "+putovanje+TODO={TODO\\|PACK}")
-	("r" "Reminders"
-	 ((agenda "" ((org-agenda-span 'day))))
-         ((org-agenda-tag-filter '("+reminder"))))
-	("j" "Job" tags-todo "TODO=\"TODO\"+job")))
 
 (use-package wgrep
   :defer t)
