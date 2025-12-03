@@ -1,4 +1,4 @@
-default.el
+init-local.el
 early-init-local.el
 custom.el
 ac-comphist.dat

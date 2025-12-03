@@ -553,10 +553,12 @@
 (with-eval-after-load 'grep
   (add-to-list 'grep-find-ignored-directories "node_modules"))
 
-;;; local defaults
-(if (file-exists-p "~/.emacs.d/default.el") (load-file "~/.emacs.d/default.el"))
-
 (use-package ligature
   :defer t)
+
+;;; Load machine-specific settings if they exist
+(let ((local-init (expand-file-name "init-local.el" user-emacs-directory)))
+  (when (file-exists-p local-init)
+    (load local-init)))
 
 ;;; init.el ends here
