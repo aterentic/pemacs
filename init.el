@@ -262,6 +262,10 @@
 
 (use-package deft
   :defer t
+  :init
+  (setq deft-directory reaktor/org-base-dir)
+  (setq deft-recursive-ignore-dir-regexp
+        (concat "\\(?:" "\\." "\\|\\.\\." "\\|.stversions" "\\)$"))
   :config
   (setq deft-extensions '("org"))
   (setq deft-use-filename-as-title t)
