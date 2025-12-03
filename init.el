@@ -479,14 +479,7 @@
   :ensure
   :config
   (setq rustic-format-display-method 'ignore)
-  ;; uncomment for less flashiness
-  ;; (setq lsp-eldoc-hook nil)
-  ;; (setq lsp-enable-symbol-highlighting nil)
-  ;; (setq lsp-signature-auto-activate nil)
-
-  ;; comment to disable rustfmt on save
-  ;; (setq rustic-format-trigger 'on-save)
-  )
+  (setq rustic-format-trigger 'on-save))
 
 ;; golang
 (use-package go-mode
