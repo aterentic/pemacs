@@ -439,11 +439,14 @@
               ("C-c l s" . consult-lsp-symbols)
               ("C-c l d" . consult-lsp-diagnostics)))
 
-(use-package dockerfile-mode)
+(use-package dockerfile-mode
+  :defer t)
 
-(use-package feature-mode)
+(use-package feature-mode
+  :defer t)
 
-(use-package csv-mode)
+(use-package csv-mode
+  :defer t)
 
 (use-package yaml-mode
   :defer t)
@@ -452,8 +455,8 @@
   :defer t)
 
 (use-package json-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.json$" . json-mode)))
+  :defer t
+  :mode "\\.json\\'")
 
 (use-package css-mode
   :hook
