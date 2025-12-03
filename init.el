@@ -506,6 +506,8 @@
 
 (use-package rustic
   :ensure
+  :hook
+  (rustic-mode . lsp-deferred)
   :config
   (setq rustic-format-display-method 'ignore)
   (setq rustic-format-trigger 'on-save))
