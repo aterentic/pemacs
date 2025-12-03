@@ -30,9 +30,6 @@
 
 (delete-selection-mode t)
 (desktop-save-mode 1)
-;;; (server-mode)
-
-;;; (setq require-final-newline t)
 
 ;;; package archives
 (require 'package)
