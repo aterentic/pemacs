@@ -383,6 +383,7 @@
    ("M-s r" . consult-ripgrep)      ; Ripgrep search
    ("M-s f" . consult-find)         ; Find files
    ("M-s g" . consult-grep)         ; Grep
+   ("M-s a" . consult-org-agenda)       ; Org agenda
    ("M-y" . consult-yank-pop))      ; Enhanced yank-pop
   :config
   ;; Use Consult for xref
