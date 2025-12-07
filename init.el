@@ -225,7 +225,7 @@
          :empty-lines 1)))
 
 ;; Org tag list
-(setq org-tag-alist '(
+(setq org-tag-persistent-alist '(
 		      ("alarm" . ?a)
 		      ("reminder" . ?r)
 		      ("review" . ?v)
