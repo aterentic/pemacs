@@ -174,6 +174,9 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
+(use-package vterm
+  :defer t)
+
 (use-package which-key
   :config
   (which-key-mode)
