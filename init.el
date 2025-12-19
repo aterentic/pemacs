@@ -274,6 +274,13 @@
   :custom
   (org-modern-timestamp nil))
 
+(use-package org-habit
+  :after org
+  :ensure nil
+  :config
+  (setq org-habit-show-habits t
+        org-habit-graph-column 50))
+
 (use-package wgrep
   :defer t)
 
