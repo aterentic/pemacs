@@ -235,6 +235,7 @@
 		      ("kupovina" . ?k)
 		      ("nabavka" . ?n)
 		      ("kids" . ?c)
+              ("project" . ?j)
 		      ("plan" . ?p)))
 
 ;; Org agenda custom commands
@@ -250,7 +251,7 @@
 	("r" "Reminders"
 	 ((agenda "" ((org-agenda-span 'day))))
          ((org-agenda-tag-filter '("+reminder"))))
-	("j" "Job" tags-todo "TODO=\"TODO\"+job")))
+	("j" "Projects" tags-todo "TODO=\"TODO\"+project")))
 
 (use-package org
   :bind (("C-c l" . org-store-link)
