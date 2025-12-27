@@ -463,7 +463,10 @@
   (copilot-indent-offset-warning-disable t)
   :config
   (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
-  (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion))
+  (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion)
+  ;; Disable copilot in special buffers
+  (add-to-list 'copilot-disable-predicates
+               (lambda () (string-match-p "^\\*" (buffer-name)))))
 
 (use-package magit
   :defer t
