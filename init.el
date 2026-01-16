@@ -263,7 +263,8 @@
     (interactive)
     (dolist (buf (org-buffer-list))
       (kill-buffer buf))
-    (org-agenda-list))
+    (org-agenda-list)
+    (org-agenda-to-appt))
   (with-eval-after-load 'org-agenda
     (define-key org-agenda-mode-map (kbd "G") #'reaktor/org-agenda-reload-from-disk)))
 
@@ -290,6 +291,27 @@
   :config
   (setq org-habit-show-habits t
         org-habit-graph-column 50))
+
+;;; appt - appointment notifications
+(use-package alert)
+
+(use-package appt
+  :ensure nil
+  :after (org alert)
+  :custom
+  (appt-message-warning-time 15)
+  (appt-display-interval 5)
+  :config
+  (setq appt-disp-window-function
+        (lambda (min-to-appt _new-time msg)
+          (let ((msgs (if (listp msg) msg (list msg))))
+            (dolist (m msgs)
+              (alert m :title (format "In %s min" min-to-appt))))))
+  (setq appt-delete-window-function #'ignore)
+  (add-hook 'org-mode-hook
+            (lambda () (add-hook 'after-save-hook #'org-agenda-to-appt nil t)))
+  (appt-activate 1)
+  (org-agenda-to-appt))
 
 (use-package wgrep
   :defer t)
