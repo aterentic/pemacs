@@ -274,6 +274,16 @@
   :custom
   (org-modern-timestamp nil))
 
+(use-package org-crypt
+  :ensure nil
+  :after org
+  :config
+  (setq epa-pinentry-mode 'loopback)    ;; prompt in Emacs
+  (setq org-crypt-tag-matcher "crypt")
+  (add-to-list 'org-tags-exclude-from-inheritance "crypt")
+  (setq org-crypt-key nil)             ;; symmetric (passphrase)
+  (org-crypt-use-before-save-magic))   ;; encrypt on save
+
 (use-package org-habit
   :after org
   :ensure nil
