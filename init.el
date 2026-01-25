@@ -251,7 +251,8 @@
 	("r" "Reminders"
 	 ((agenda "" ((org-agenda-span 'day))))
          ((org-agenda-tag-filter '("+reminder"))))
-	("j" "Projects" tags-todo "TODO=\"TODO\"+project")))
+	("j" "Projects" tags-todo "TODO=\"TODO\"+project")
+	("w" "Watch" tags-todo "TODO=\"TODO\"+watch")))
 
 (use-package org
   :bind (("C-c l" . org-store-link)
