@@ -259,6 +259,8 @@
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture))
   :config
+  (add-to-list 'org-modules 'org-habit)
+  (setq org-log-into-drawer t)
   (defun reaktor/org-agenda-reload-from-disk ()
     "Kill all Org buffers and reload agenda from disk."
     (interactive)
