@@ -391,8 +391,36 @@ Unmatched genres are silently dropped.")
       (kill-buffer buf))
     (org-agenda-list)
     (org-agenda-to-appt))
+  (defvar reaktor/org-agenda-hide-future nil
+    "When non-nil, hide entries scheduled/deadlined/timestamped in the future.")
+  (defun reaktor/org-agenda-skip-future ()
+    "Skip entry if its scheduled/deadline/timestamp is in the future."
+    (let ((end (save-excursion (org-end-of-subtree t))))
+      (when (cl-some (lambda (ts) (and ts (> (org-time-stamp-to-now ts) 0)))
+                     (list (org-entry-get nil "SCHEDULED")
+                           (org-entry-get nil "DEADLINE")
+                           (org-entry-get nil "TIMESTAMP")))
+        end)))
+  (defun reaktor/org-agenda-toggle-future ()
+    "Toggle hiding of future scheduled/deadline/timestamp entries."
+    (interactive)
+    (setq reaktor/org-agenda-hide-future (not reaktor/org-agenda-hide-future))
+    (if reaktor/org-agenda-hide-future
+        (setq org-agenda-skip-function-global #'reaktor/org-agenda-skip-future)
+      (setq org-agenda-skip-function-global nil))
+    (message (if reaktor/org-agenda-hide-future
+                 "Hiding future entries"
+               "Showing all entries"))
+    (org-agenda-redo))
   (with-eval-after-load 'org-agenda
-    (define-key org-agenda-mode-map (kbd "G") #'reaktor/org-agenda-reload-from-disk)))
+    (define-key org-agenda-mode-map (kbd "G") #'reaktor/org-agenda-reload-from-disk)
+    (define-key org-agenda-mode-map (kbd "F") #'reaktor/org-agenda-toggle-future)))
+
+(setq org-refile-targets
+      '((org-agenda-files :maxlevel . 3)))
+
+(setq org-refile-use-outline-path 'file
+      org-outline-path-complete-in-steps nil)
 
 (use-package org-modern
   :hook
