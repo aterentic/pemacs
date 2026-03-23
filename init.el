@@ -365,7 +365,26 @@ Unmatched genres are silently dropped.")
 
 ;; Org agenda custom commands
 (setq org-agenda-custom-commands
-      '(("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina"
+      '(("d" "Daily"
+	 ((agenda "" ((org-agenda-span 'day)
+		      (org-agenda-skip-function
+		       '(let ((tags (org-get-tags)))
+			  (when (or (member "reminder" tags)
+				    (member "plan" tags))
+			    (org-end-of-subtree t))))))
+	  (agenda "" ((org-agenda-span 'day)
+		      (org-agenda-skip-function
+		       '(let ((tags (org-get-tags)))
+			  (unless (member "reminder" tags)
+			    (org-end-of-subtree t))))
+		      (org-agenda-overriding-header "Reminders")))
+	  (agenda "" ((org-agenda-span 'day)
+		      (org-agenda-skip-function
+		       '(let ((tags (org-get-tags)))
+			  (unless (member "plan" tags)
+			    (org-end-of-subtree t))))
+		      (org-agenda-overriding-header "Plans")))))
+	("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina"
 	 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
 	("ckk" "Kupovina" tags-todo "TODO=\"TODO\"-nabavka+kupovina-review")
 	("ckr" "Kupovina (pregled)" tags-todo "TODO=\"TODO\"+kupovina+review")
@@ -375,7 +394,7 @@ Unmatched genres are silently dropped.")
 	("p" "Putovanje TODO/Pack" tags-todo "+putovanje+TODO={TODO\\|PACK}")
 	("r" "Reminders"
 	 ((agenda "" ((org-agenda-span 'day))))
-         ((org-agenda-tag-filter '("+reminder"))))
+         ((org-agenda-tag-filter-preset '("+reminder"))))
 	("j" "Projects" tags-todo "TODO=\"TODO\"+project")
 	("w" "Watch" tags-todo "TODO=\"TODO\"+watch")))
 
