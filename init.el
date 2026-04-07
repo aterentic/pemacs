@@ -746,7 +746,19 @@ Unmatched genres are silently dropped.")
   :defer t)
 
 (use-package markdown-mode
-  :defer t)
+  :defer t
+  :config
+  (setq markdown-command "pandoc -f gfm -t html5")
+  (let ((res-dir (expand-file-name "resources" user-emacs-directory)))
+    (setq markdown-css-paths
+          (list (concat "file://" (expand-file-name "github-markdown.css" res-dir))
+                (concat "file://" (expand-file-name "syntax-highlight.css" res-dir))
+                (concat "file://" (expand-file-name "markdown-preview.css" res-dir))))
+    (setq markdown-xhtml-header-content
+          (format "<script src=\"file://%s\"></script>"
+                  (expand-file-name "markdown-preview.js" res-dir)))
+    (setq markdown-xhtml-body-preamble "<div class=\"markdown-body\">"
+          markdown-xhtml-body-epilogue "</div>")))
 
 (use-package json-mode
   :defer t

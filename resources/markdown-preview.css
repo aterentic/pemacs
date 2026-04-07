@@ -1,0 +1,66 @@
+/* Markdown Preview — layout + foldable headlines (pairs with github-markdown.css) */
+
+body {
+  max-width: 48rem;
+  margin: 2rem auto;
+  padding: 0 1.5rem 4rem;
+  background: #ffffff;
+  color: #1f2328;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #0d1117;
+    color: #f0f6fc;
+  }
+}
+
+/* ── Task list checkboxes ── */
+
+.task-list { list-style: none; padding-left: 1.5em; }
+.task-list li input[type="checkbox"] { margin-right: 0.5em; }
+
+/* ── Foldable sections ── */
+
+.fold-toggle {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-left: 1.4em;
+  transition: opacity 0.2s ease;
+}
+
+.fold-toggle::before {
+  content: "▼";
+  position: absolute;
+  left: 0;
+  font-size: 0.55em;
+  top: 0.55em;
+  opacity: 0.4;
+  transition: transform 0.15s ease;
+}
+
+.fold-toggle.collapsed {
+  opacity: 0.45;
+}
+
+.fold-toggle.collapsed::before {
+  content: "▶";
+}
+
+.fold-content {
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+}
+
+.fold-content.collapsed {
+  max-height: 0 !important;
+}
+
+/* ── Print ── */
+
+@media print {
+  body { max-width: none; margin: 0; padding: 1cm; }
+  .fold-toggle::before { content: "" !important; }
+  .fold-content.collapsed { max-height: none !important; }
+}
