@@ -52,6 +52,10 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; Allow package.el to upgrade built-in packages (e.g. transient, which
+;; magit/forge need a newer version of than Emacs ships with)
+(setq package-install-upgrade-built-in t)
+
 ;; Use a separate file for custom variables
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
@@ -679,6 +683,18 @@ Unmatched genres are silently dropped.")
   :defer t
   :bind (:map magit-diff-mode-map
         ("o" . magit-diff-visit-worktree-file-other-window)))
+
+(use-package forge
+  :after magit)
+
+(use-package diff-hl
+  :hook ((prog-mode . diff-hl-mode)
+         (text-mode . diff-hl-mode)
+         (magit-pre-refresh . diff-hl-magit-pre-refresh)
+         (magit-post-refresh . diff-hl-magit-post-refresh)))
+
+(use-package git-link
+  :defer t)
 
 (setopt ediff-window-setup-function 'ediff-setup-windows-plain)
 
