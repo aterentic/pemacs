@@ -374,7 +374,8 @@ Unmatched genres are silently dropped.")
 		      (org-agenda-skip-function
 		       '(let ((tags (org-get-tags)))
 			  (when (or (member "reminder" tags)
-				    (member "plan" tags))
+				        (member "plan" tags)
+                        (member "project" tags))
 			    (org-end-of-subtree t))))))
 	  (agenda "" ((org-agenda-span 'day)
 		      (org-agenda-skip-function
@@ -385,9 +386,10 @@ Unmatched genres are silently dropped.")
 	  (agenda "" ((org-agenda-span 'day)
 		      (org-agenda-skip-function
 		       '(let ((tags (org-get-tags)))
-			  (unless (member "plan" tags)
+			  (unless (or (member "plan" tags)
+                          (member "project" tags))
 			    (org-end-of-subtree t))))
-		      (org-agenda-overriding-header "Plans")))))
+		      (org-agenda-overriding-header "Plans & Projects")))))
 	("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina"
 	 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
 	("ckk" "Kupovina" tags-todo "TODO=\"TODO\"-nabavka+kupovina-review")
