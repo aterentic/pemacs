@@ -204,6 +204,8 @@
   :defer t)
 
 ;;; org-mode
+(setq org-enforce-todo-dependencies t)
+(setq org-agenda-dim-blocked-tasks t)
 
 ;; Org base directory - can be overridden in early-init-local.el
 (unless (boundp 'reaktor/org-base-dir)
