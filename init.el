@@ -729,7 +729,7 @@ Unmatched genres are silently dropped.")
   ;; Disable semgrep-ls (static analysis tool)
   (setq lsp-disabled-clients '(semgrep-ls))
   :custom
-  (lsp-completion-provider :capf)
+  (lsp-completion-provider :none)
   (lsp-rust-analyzer-cargo-watch-command "clippy")
   (lsp-rust-analyzer-cargo-all-targets t)
   (lsp-rust-analyzer-proc-macro-enable t)
