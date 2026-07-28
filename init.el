@@ -446,8 +446,8 @@ Unmatched genres are silently dropped.")
                "Showing all entries"))
     (org-agenda-redo))
   (with-eval-after-load 'org-agenda
-    (define-key org-agenda-mode-map (kbd "G") #'reaktor/org-agenda-reload-from-disk)
-    (define-key org-agenda-mode-map (kbd "F") #'reaktor/org-agenda-toggle-future)))
+    (define-key org-agenda-mode-map (kbd "C-c g") #'reaktor/org-agenda-reload-from-disk)
+    (define-key org-agenda-mode-map (kbd "C-c f") #'reaktor/org-agenda-toggle-future)))
 
 (setq org-refile-targets
       '((org-agenda-files :maxlevel . 3)))
