@@ -26,4 +26,6 @@ projects
 /history
 /tree-sitter/
 recentf
+/forge-database.sqlite
+*.elc
 CLAUDE.md
