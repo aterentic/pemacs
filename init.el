@@ -205,7 +205,6 @@
 
 ;;; org-mode
 (setq org-enforce-todo-dependencies t)
-(setq org-agenda-dim-blocked-tasks t)
 
 ;; Org base directory - can be overridden in early-init-local.el
 (unless (boundp 'reaktor/org-base-dir)
@@ -215,12 +214,6 @@
 (setq reaktor/org-private-dir (expand-file-name "private/" reaktor/org-base-dir))
 (setq reaktor/org-shared-dir (expand-file-name "shared/" reaktor/org-base-dir))
 (setq reaktor/org-templates-dir (expand-file-name "templates/" reaktor/org-base-dir))
-
-;; Org agenda files
-(setq org-agenda-files
-      (append
-       (directory-files reaktor/org-private-dir t "\\.org$")
-       (directory-files reaktor/org-shared-dir t "\\.org$")))
 
 ;; IMDB movie entry
 
@@ -369,42 +362,50 @@ Unmatched genres are silently dropped.")
               ("project" . ?j)
 		      ("plan" . ?p)))
 
-;; Org agenda custom commands
-(setq org-agenda-custom-commands
-      '(("d" "Daily"
-	 ((agenda "" ((org-agenda-span 'day)
-		      (org-agenda-skip-function
-		       '(let ((tags (org-get-tags)))
-			  (when (or (member "reminder" tags)
-				        (member "plan" tags)
-                        (member "project" tags))
-			    (org-end-of-subtree t))))))
-	  (agenda "" ((org-agenda-span 'day)
-		      (org-agenda-skip-function
-		       '(let ((tags (org-get-tags)))
-			  (unless (member "reminder" tags)
-			    (org-end-of-subtree t))))
-		      (org-agenda-overriding-header "Reminders")))
-	  (agenda "" ((org-agenda-span 'day)
-		      (org-agenda-skip-function
-		       '(let ((tags (org-get-tags)))
-			  (unless (or (member "plan" tags)
-                          (member "project" tags))
-			    (org-end-of-subtree t))))
-		      (org-agenda-overriding-header "Plans & Projects")))))
-	("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina"
-	 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
-	("ckk" "Kupovina" tags-todo "TODO=\"TODO\"-nabavka+kupovina-review")
-	("ckr" "Kupovina (pregled)" tags-todo "TODO=\"TODO\"+kupovina+review")
-    ("ckn" "Kupovina (nabavka)" tags-todo "TODO=\"NEED\"|TODO=\"TODO\"+nabavka+kupovina")
-	("cp" "Pakovanje" tags-todo "TODO=\"PACK\"")
-	("cr" "Reading" tags-todo "TODO=\"TODO\"+reading")
-	("p" "Putovanje TODO/Pack" tags-todo "+putovanje+TODO={TODO\\|PACK}")
-	("r" "Reminders"
-	 ((agenda "" ((org-agenda-span 'day))))
-         ((org-agenda-tag-filter-preset '("+reminder"))))
-	("j" "Projects" tags-todo "TODO=\"TODO\"+project")
-	("w" "Watch" tags-todo "TODO=\"TODO\"+watch")))
+(use-package org-agenda
+  :ensure nil
+  :defer t
+  :init
+  (setq org-agenda-dim-blocked-tasks t)
+  (setq org-agenda-files
+        (append
+         (directory-files reaktor/org-private-dir t "\\.org$")
+         (directory-files reaktor/org-shared-dir t "\\.org$")))
+  (setq org-agenda-custom-commands
+	'(("d" "Daily"
+	   ((agenda "" ((org-agenda-span 'day)
+			(org-agenda-skip-function
+			 '(let ((tags (org-get-tags)))
+			    (when (or (member "reminder" tags)
+				      (member "plan" tags)
+				      (member "project" tags))
+			      (org-end-of-subtree t))))))
+	    (agenda "" ((org-agenda-span 'day)
+			(org-agenda-skip-function
+			 '(let ((tags (org-get-tags)))
+			    (unless (member "reminder" tags)
+			      (org-end-of-subtree t))))
+			(org-agenda-overriding-header "Reminders")))
+	    (agenda "" ((org-agenda-span 'day)
+			(org-agenda-skip-function
+			 '(let ((tags (org-get-tags)))
+			    (unless (or (member "plan" tags)
+					(member "project" tags))
+			      (org-end-of-subtree t))))
+			(org-agenda-overriding-header "Plans & Projects")))))
+	  ("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina"
+	   ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
+	  ("ckk" "Kupovina" tags-todo "TODO=\"TODO\"-nabavka+kupovina-review")
+	  ("ckr" "Kupovina (pregled)" tags-todo "TODO=\"TODO\"+kupovina+review")
+	  ("ckn" "Kupovina (nabavka)" tags-todo "TODO=\"NEED\"|TODO=\"TODO\"+nabavka+kupovina")
+	  ("cp" "Pakovanje" tags-todo "TODO=\"PACK\"")
+	  ("cr" "Reading" tags-todo "TODO=\"TODO\"+reading")
+	  ("p" "Putovanje TODO/Pack" tags-todo "+putovanje+TODO={TODO\\|PACK}")
+	  ("r" "Reminders"
+	   ((agenda "" ((org-agenda-span 'day))))
+           ((org-agenda-tag-filter-preset '("+reminder"))))
+	  ("j" "Projects" tags-todo "TODO=\"TODO\"+project")
+	  ("w" "Watch" tags-todo "TODO=\"TODO\"+watch"))))
 
 (use-package org
   :bind (("C-c l" . org-store-link)
