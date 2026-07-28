@@ -83,7 +83,6 @@
 (setq major-mode-remap-alist
       '((go-mode . go-ts-mode)
         (js-mode . js-ts-mode)
-        (js2-mode . js-ts-mode)
         (typescript-mode . typescript-ts-mode)
         (python-mode . python-ts-mode)
         (json-mode . json-ts-mode)))
@@ -732,20 +731,9 @@ Set this in early-init-local.el to override it for a machine.")
   :hook
   (web-mode . (lambda () (setq-local tab-width 4) (setq web-mode-code-indent-offset 2))))
 
-(use-package js2-mode
-  :config
-  (setq js2-highlight-level 3)
-  :hook
-  (js-mode . (lambda () (setq-local tab-width 4)))
-  (js-mode . js2-minor-mode))
-(use-package js2-refactor
-  :config
-  (js2r-add-keybindings-with-prefix "C-c C-m")
-  :hook
-  (js2-mode . js2-refactor-mode))
 (use-package prettier-js
   :hook
-  (js2-mode . prettier-js-mode)
+  (js-ts-mode . prettier-js-mode)
   (web-mode . prettier-js-mode))
 
 ;;; typescript
@@ -755,7 +743,6 @@ Set this in early-init-local.el to override it for a machine.")
 ;;; python
 (use-package python
   :ensure nil
-  :hook (python-mode . lsp-deferred)
   :config
   (setenv "IPY_TEST_SIMPLE_PROMPT" "1")
   (setq python-shell-interpreter "ipython3"
