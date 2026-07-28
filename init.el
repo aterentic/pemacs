@@ -371,6 +371,10 @@ Unmatched genres are silently dropped.")
         (append
          (directory-files reaktor/org-private-dir t "\\.org$")
          (directory-files reaktor/org-shared-dir t "\\.org$")))
+  ;; Deferred items belong on the calendar, not in the TODO lists
+  (setq org-agenda-tags-todo-honor-ignore-options t)
+  (setq org-agenda-todo-ignore-scheduled 'future)
+  (setq org-agenda-todo-ignore-deadlines 'future)
   (setq org-agenda-custom-commands
 	'(("d" "Daily"
 	   ((agenda "" ((org-agenda-span 'day)
@@ -393,8 +397,7 @@ Unmatched genres are silently dropped.")
 					(member "project" tags))
 			      (org-end-of-subtree t))))
 			(org-agenda-overriding-header "Plans & Projects")))))
-	  ("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina"
-	   ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
+	  ("ct" "TODO" tags-todo "TODO=\"TODO\"-job-nabavka-reading-kupovina")
 	  ("ckk" "Kupovina" tags-todo "TODO=\"TODO\"-nabavka+kupovina-review")
 	  ("ckr" "Kupovina (pregled)" tags-todo "TODO=\"TODO\"+kupovina+review")
 	  ("ckn" "Kupovina (nabavka)" tags-todo "TODO=\"NEED\"|TODO=\"TODO\"+nabavka+kupovina")
