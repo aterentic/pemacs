@@ -257,6 +257,38 @@ Set this in early-init-local.el to override it for a machine.")
               ("project" . ?j)
 		      ("plan" . ?p)))
 
+(defun reaktor/org-agenda-reload-from-disk ()
+  "Kill all Org buffers and reload agenda from disk."
+  (interactive)
+  (dolist (buf (org-buffer-list))
+    (kill-buffer buf))
+  (org-agenda-list)
+  (org-agenda-to-appt))
+
+(defvar reaktor/org-agenda-hide-future nil
+  "When non-nil, hide entries scheduled/deadlined/timestamped in the future.")
+
+(defun reaktor/org-agenda-skip-future ()
+  "Skip entry if its scheduled/deadline/timestamp is in the future."
+  (let ((end (save-excursion (org-end-of-subtree t))))
+    (when (cl-some (lambda (ts) (and ts (> (org-time-stamp-to-now ts) 0)))
+                   (list (org-entry-get nil "SCHEDULED")
+                         (org-entry-get nil "DEADLINE")
+                         (org-entry-get nil "TIMESTAMP")))
+      end)))
+
+(defun reaktor/org-agenda-toggle-future ()
+  "Toggle hiding of future scheduled/deadline/timestamp entries."
+  (interactive)
+  (setq reaktor/org-agenda-hide-future (not reaktor/org-agenda-hide-future))
+  (if reaktor/org-agenda-hide-future
+      (setq org-agenda-skip-function-global #'reaktor/org-agenda-skip-future)
+    (setq org-agenda-skip-function-global nil))
+  (message (if reaktor/org-agenda-hide-future
+               "Hiding future entries"
+             "Showing all entries"))
+  (org-agenda-redo))
+
 (use-package org-agenda
   :ensure nil
   :defer t
@@ -305,7 +337,10 @@ Set this in early-init-local.el to override it for a machine.")
 	   ((agenda "" ((org-agenda-span 'day))))
            ((org-agenda-tag-filter-preset '("+reminder"))))
 	  ("p" "Projects" tags-todo "TODO=\"TODO\"+project")
-	  ("w" "Watch" tags-todo "TODO=\"TODO\"+watch"))))
+	  ("w" "Watch" tags-todo "TODO=\"TODO\"+watch")))
+  :config
+  (define-key org-agenda-mode-map (kbd "C-c g") #'reaktor/org-agenda-reload-from-disk)
+  (define-key org-agenda-mode-map (kbd "C-c f") #'reaktor/org-agenda-toggle-future))
 
 (use-package org
   :bind (("C-c l" . org-store-link)
@@ -316,38 +351,7 @@ Set this in early-init-local.el to override it for a machine.")
   (org-enforce-todo-dependencies t)
   :config
   (add-to-list 'org-modules 'org-habit)
-  (setq org-log-into-drawer t)
-  (defun reaktor/org-agenda-reload-from-disk ()
-    "Kill all Org buffers and reload agenda from disk."
-    (interactive)
-    (dolist (buf (org-buffer-list))
-      (kill-buffer buf))
-    (org-agenda-list)
-    (org-agenda-to-appt))
-  (defvar reaktor/org-agenda-hide-future nil
-    "When non-nil, hide entries scheduled/deadlined/timestamped in the future.")
-  (defun reaktor/org-agenda-skip-future ()
-    "Skip entry if its scheduled/deadline/timestamp is in the future."
-    (let ((end (save-excursion (org-end-of-subtree t))))
-      (when (cl-some (lambda (ts) (and ts (> (org-time-stamp-to-now ts) 0)))
-                     (list (org-entry-get nil "SCHEDULED")
-                           (org-entry-get nil "DEADLINE")
-                           (org-entry-get nil "TIMESTAMP")))
-        end)))
-  (defun reaktor/org-agenda-toggle-future ()
-    "Toggle hiding of future scheduled/deadline/timestamp entries."
-    (interactive)
-    (setq reaktor/org-agenda-hide-future (not reaktor/org-agenda-hide-future))
-    (if reaktor/org-agenda-hide-future
-        (setq org-agenda-skip-function-global #'reaktor/org-agenda-skip-future)
-      (setq org-agenda-skip-function-global nil))
-    (message (if reaktor/org-agenda-hide-future
-                 "Hiding future entries"
-               "Showing all entries"))
-    (org-agenda-redo))
-  (with-eval-after-load 'org-agenda
-    (define-key org-agenda-mode-map (kbd "C-c g") #'reaktor/org-agenda-reload-from-disk)
-    (define-key org-agenda-mode-map (kbd "C-c f") #'reaktor/org-agenda-toggle-future)))
+  (setq org-log-into-drawer t))
 
 (setq org-refile-targets
       '((org-agenda-files :maxlevel . 3)))
