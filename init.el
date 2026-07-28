@@ -220,9 +220,15 @@ Set this in early-init-local.el to override it for a machine.")
 
 (require 'reaktor-imdb)
 
+(setq org-default-notes-file (expand-file-name "inbox.org" reaktor/org-private-dir))
+
 ;; Org capture templates
 (setq org-capture-templates
-      `(("v" "Vacation/Trip" entry
+      `(("t" "Task" entry
+         (file org-default-notes-file)
+         "* TODO %?\n%U\n%a"
+         :empty-lines 1)
+        ("v" "Vacation/Trip" entry
          (file+headline ,(expand-file-name "putovanja.org" reaktor/org-shared-dir) "2026")
          (file ,(expand-file-name "vacation.org" reaktor/org-templates-dir))
          :empty-lines 1)
