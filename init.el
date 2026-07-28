@@ -206,7 +206,6 @@
   :defer t)
 
 ;;; org-mode
-(setq org-enforce-todo-dependencies t)
 
 ;; Org base directory - can be overridden in early-init-local.el
 (unless (boundp 'reaktor/org-base-dir)
@@ -297,6 +296,9 @@
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture))
+  ;; :set installs the blocker hook, so this must not be a plain setq
+  :custom
+  (org-enforce-todo-dependencies t)
   :config
   (add-to-list 'org-modules 'org-habit)
   (setq org-log-into-drawer t)
