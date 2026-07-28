@@ -74,10 +74,14 @@
         (python "https://github.com/tree-sitter/tree-sitter-python")
         (json "https://github.com/tree-sitter/tree-sitter-json")))
 
-;; Auto-install grammars on first use
-(dolist (lang treesit-language-source-alist)
-  (unless (treesit-language-available-p (car lang))
-    (treesit-install-language-grammar (car lang))))
+(defun reaktor/install-treesit-grammars ()
+  "Install every grammar in `treesit-language-source-alist' that is missing.
+Each installation clones and compiles the grammar, so this is a
+deliberate command rather than something to do while starting up."
+  (interactive)
+  (dolist (lang treesit-language-source-alist)
+    (unless (treesit-language-available-p (car lang))
+      (treesit-install-language-grammar (car lang)))))
 
 ;; Remap modes to use tree-sitter (Rust uses rustic-mode which works well as-is)
 (setq major-mode-remap-alist
