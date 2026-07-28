@@ -100,7 +100,9 @@
 (defun my/setup-go-ts-mode ()
   "Setup for go-ts-mode."
   (lsp-deferred)
-  (add-hook 'before-save-hook #'gofmt-before-save nil t))
+  ;; gofmt-before-save only acts in go-mode, and gofmt carries no autoload
+  (require 'go-mode)
+  (add-hook 'before-save-hook #'gofmt nil t))
 
 (add-hook 'go-ts-mode-hook #'my/setup-go-ts-mode)
 (add-hook 'python-ts-mode-hook #'lsp-deferred)
@@ -633,6 +635,8 @@ Set this in early-init-local.el to override it for a machine.")
   (lsp-rust-analyzer-cargo-all-targets t)
   (lsp-rust-analyzer-proc-macro-enable t)
   (lsp-rust-analyzer-cargo-load-out-dirs-from-check t)
+  (lsp-gopls-staticcheck t)
+  (lsp-gopls-complete-unimported t)
   (lsp-eldoc-render-all t)
   (lsp-idle-delay 0.6)
   (lsp-response-timeout 180)
@@ -712,17 +716,11 @@ Set this in early-init-local.el to override it for a machine.")
 
 ;; golang
 (use-package go-mode
-  :hook
-  (go-mode . lsp-deferred)
-  (before-save . gofmt-before-save)
-  :config
-  (setq lsp-gopls-staticcheck t)
-  (setq lsp-gopls-complete-unimported t))
+  :defer t)
 
 (use-package gotest
-  :defer t
-  :after go-mode
-  :bind (:map go-mode-map
+  :after go-ts-mode
+  :bind (:map go-ts-mode-map
               ("C-c t f" . go-test-current-file)
               ("C-c t t" . go-test-current-test)
               ("C-c t p" . go-test-current-project)))
