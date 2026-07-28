@@ -207,14 +207,16 @@
 
 ;;; org-mode
 
-;; Org base directory - can be overridden in early-init-local.el
-(unless (boundp 'reaktor/org-base-dir)
-  (setq reaktor/org-base-dir "~/org/"))
+(defvar reaktor/org-base-dir "~/org/"
+  "Base directory for Org files.
+Set this in early-init-local.el to override it for a machine.")
 
-;; Derived org paths
-(setq reaktor/org-private-dir (expand-file-name "private/" reaktor/org-base-dir))
-(setq reaktor/org-shared-dir (expand-file-name "shared/" reaktor/org-base-dir))
-(setq reaktor/org-templates-dir (expand-file-name "templates/" reaktor/org-base-dir))
+(defconst reaktor/org-private-dir (expand-file-name "private/" reaktor/org-base-dir)
+  "Directory holding private Org files.")
+(defconst reaktor/org-shared-dir (expand-file-name "shared/" reaktor/org-base-dir)
+  "Directory holding Org files shared across devices.")
+(defconst reaktor/org-templates-dir (expand-file-name "templates/" reaktor/org-base-dir)
+  "Directory holding Org capture templates.")
 
 (require 'reaktor-imdb)
 
