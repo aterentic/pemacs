@@ -171,7 +171,8 @@ deliberate command rather than something to do while starting up."
 (use-package zone-rainbow
   :defer t)
 (use-package zone
-  :defer t
+  :ensure nil
+  :demand t
   :config
   (zone-when-idle 180)
   (setq zone-programs
