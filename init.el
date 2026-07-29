@@ -536,7 +536,6 @@ Set this in early-init-local.el to override it for a machine.")
 
 ;;; Consult-projectile bridge - projectile integration with Consult
 (use-package consult-projectile
-  :after (consult projectile)
   :bind (("C-c p p" . consult-projectile-switch-project)
          ("C-c p f" . consult-projectile-find-file)
          ("C-c p d" . consult-projectile-find-dir)))
