@@ -355,7 +355,9 @@ Set this in early-init-local.el to override it for a machine.")
         org-habit-graph-column 50))
 
 ;;; appt - appointment notifications
-(use-package alert)
+(use-package alert
+  :custom
+  (alert-default-style 'osx-notifier))
 
 (use-package appt
   :ensure nil
