@@ -94,14 +94,6 @@ deliberate command rather than something to do while starting up."
         (python-mode . python-ts-mode)
         (json-mode . json-ts-mode)))
 
-;; Configure LSP for tree-sitter modes
-(with-eval-after-load 'lsp-mode
-  (dolist (mode-id '((go-ts-mode . "go")
-                     (python-ts-mode . "python")
-                     (js-ts-mode . "javascript")
-                     (typescript-ts-mode . "typescript")))
-    (add-to-list 'lsp-language-id-configuration mode-id)))
-
 ;; Enable LSP and formatting for tree-sitter modes
 (defun my/setup-go-ts-mode ()
   "Setup for go-ts-mode."
@@ -195,6 +187,7 @@ deliberate command rather than something to do while starting up."
   :defer t)
 
 (use-package which-key
+  :ensure nil
   :config
   (which-key-mode)
   (which-key-setup-side-window-right)
