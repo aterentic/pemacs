@@ -69,6 +69,7 @@
         (go "https://github.com/tree-sitter/tree-sitter-go")
         (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
         (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+        (jsdoc "https://github.com/tree-sitter/tree-sitter-jsdoc")
         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
         (python "https://github.com/tree-sitter/tree-sitter-python")
@@ -84,10 +85,12 @@ deliberate command rather than something to do while starting up."
       (treesit-install-language-grammar (car lang)))))
 
 ;; Remap modes to use tree-sitter (Rust uses rustic-mode which works well as-is)
+;; auto-mode-alist names javascript-mode, and the lookup does not follow the
+;; alias to js-mode, so the alias needs its own entry
 (setq major-mode-remap-alist
       '((go-mode . go-ts-mode)
         (js-mode . js-ts-mode)
-        (typescript-mode . typescript-ts-mode)
+        (javascript-mode . js-ts-mode)
         (python-mode . python-ts-mode)
         (json-mode . json-ts-mode)))
 
@@ -111,6 +114,8 @@ deliberate command rather than something to do while starting up."
 (add-hook 'python-ts-mode-hook #'lsp-deferred)
 (add-hook 'js-ts-mode-hook #'lsp-deferred)
 (add-hook 'typescript-ts-mode-hook #'lsp-deferred)
+;; tsx-ts-mode descends from typescript-ts-base-mode, not typescript-ts-mode
+(add-hook 'tsx-ts-mode-hook #'lsp-deferred)
 
 ;; ;;; themes: doom-themes, solarized-theme, zenburn-theme
 (use-package doom-themes
@@ -704,11 +709,14 @@ Set this in early-init-local.el to override it for a machine.")
               ("C-c t p" . go-test-current-project)))
 
 ;;; javascript
+(defun reaktor/web-mode-setup ()
+  "Indentation for `web-mode' buffers."
+  (setq-local tab-width 4)
+  (setq-local web-mode-code-indent-offset 2))
+
 (use-package web-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
-  :hook
-  (web-mode . (lambda () (setq-local tab-width 4) (setq web-mode-code-indent-offset 2))))
+  :defer t
+  :hook (web-mode . reaktor/web-mode-setup))
 
 (use-package prettier-js
   :hook
