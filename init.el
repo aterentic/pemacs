@@ -172,6 +172,14 @@ deliberate command rather than something to do while starting up."
 (use-package centered-cursor-mode
   :defer t)
 
+;; Works around zone (Emacs 31, no upstream report): zone--prepare-frames hides
+;; the cursor by putting (bar . 0) on every visible frame, but zone saves the
+;; original cursor-type of only the frame it started from, so every other frame
+;; keeps the zero-width bar until it dies.  The default of t would consult that
+;; frame parameter; naming a shape here means buffers never look at it.
+;; Remove once zone restores the cursor on every frame it modifies.
+(setq-default cursor-type 'box)
+
 ;; highlight the current line
 (use-package hl-line
   :config
