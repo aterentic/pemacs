@@ -346,6 +346,13 @@ Set this in early-init-local.el to override it for a machine.")
   :custom
   (org-modern-timestamp nil))
 
+;; Not on MELPA; keeps block backgrounds aligned under org-indent's
+;; virtual indentation, which org-modern alone does not handle.  Pinned to a
+;; reviewed tag so upstream cannot land code that runs here unread.
+(use-package org-modern-indent
+  :vc (:url "https://github.com/jdtsmith/org-modern-indent" :rev "v0.5.3")
+  :hook (org-indent-mode . org-modern-indent-mode))
+
 (use-package org-crypt
   :ensure nil
   :after org
