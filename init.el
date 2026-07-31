@@ -327,6 +327,7 @@ Set this in early-init-local.el to override it for a machine.")
   ;; :set installs the blocker hook, so this must not be a plain setq
   :custom
   (org-enforce-todo-dependencies t)
+  (org-link-elisp-skip-confirm-regexp "^(org-agenda ")
   :config
   (add-to-list 'org-modules 'org-habit)
   (setq org-log-into-drawer t))
