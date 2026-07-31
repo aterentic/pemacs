@@ -255,13 +255,13 @@ Set this in early-init-local.el to override it for a machine.")
 ;; Org tag list
 (setq org-tag-persistent-alist '(
 		      ("alarm" . ?a)
+		      ("kids" . ?k)
+              ("project" . ?p)
 		      ("reminder" . ?r)
 		      ("review" . ?v)
-		      ("kupovina" . ?k)
-		      ("nabavka" . ?n)
-		      ("kids" . ?c)
-              ("project" . ?j)
-		      ("plan" . ?p)))
+		      ("shopping" . ?b)
+		      ("supplies" . ?s)
+              ("travel" . ?t)))
 
 (declare-function reaktor/org-agenda-reload-from-disk "reaktor-org-agenda")
 (declare-function reaktor/org-agenda-toggle-future "reaktor-org-agenda")
