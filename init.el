@@ -328,6 +328,7 @@ Set this in early-init-local.el to override it for a machine.")
   :custom
   (org-enforce-todo-dependencies t)
   (org-link-elisp-skip-confirm-regexp "^(org-agenda ")
+  (org-startup-indented t)
   :config
   (add-to-list 'org-modules 'org-habit)
   (setq org-log-into-drawer t))
