@@ -113,6 +113,20 @@ deliberate command rather than something to do while starting up."
   :config
   (load-theme 'doom-monokai-pro t))
 
+;;; palette
+;; The loaded theme's colours, named so faces defined here can share them.
+;; Changing the theme above means revisiting these.
+
+(defconst reaktor/red     "#CC6666" "Muted red.")
+(defconst reaktor/magenta "#FF6188" "Alert pink, the loudest colour available.")
+(defconst reaktor/orange  "#FC9867" "Warm orange.")
+(defconst reaktor/yellow  "#FFD866" "Warm yellow.")
+(defconst reaktor/green   "#A9DC76" "Fresh green.")
+(defconst reaktor/blue    "#78DCE8" "Bright cyan-blue.")
+(defconst reaktor/violet  "#AB9DF2" "Soft violet.")
+(defconst reaktor/chip    "#383539" "Background for labels that only classify.")
+(defconst reaktor/bg      "#2D2A2E" "Frame background, legible against every colour above.")
+
 ;;; modeline
 
 (line-number-mode t)
@@ -263,6 +277,20 @@ Set this in early-init-local.el to override it for a machine.")
 		      ("supplies" . ?s)
               ("travel" . ?t)))
 
+;; Tags that call for action today are filled; the rest only classify, so they
+;; stay dark and let their colour do the work.  Every tag names a background,
+;; because the agenda dims blocked entries by overriding the foreground alone.
+;; Weight is left to the label face, which condenses the text on purpose.
+(setq org-tag-faces
+      `(("alarm"    . (:background ,reaktor/magenta :foreground ,reaktor/bg))
+        ("review"   . (:background ,reaktor/orange  :foreground ,reaktor/bg))
+        ("reminder" . (:background ,reaktor/yellow  :foreground ,reaktor/bg))
+        ("project"  . (:background ,reaktor/chip    :foreground ,reaktor/violet))
+        ("kids"     . (:background ,reaktor/chip    :foreground ,reaktor/blue))
+        ("travel"   . (:background ,reaktor/chip    :foreground ,reaktor/orange))
+        ("shopping" . (:background ,reaktor/chip    :foreground ,reaktor/green))
+        ("supplies" . (:background ,reaktor/chip    :foreground ,reaktor/green))))
+
 (declare-function reaktor/org-agenda-reload-from-disk "reaktor-org-agenda")
 (declare-function reaktor/org-agenda-toggle-future "reaktor-org-agenda")
 
@@ -344,7 +372,10 @@ Set this in early-init-local.el to override it for a machine.")
   (org-mode . org-modern-mode)
   (org-agenda-finalize . org-modern-agenda)
   :custom
-  (org-modern-timestamp nil))
+  (org-modern-timestamp nil)
+  ;; org-modern draws its own tag labels and reads only its own alist, so
+  ;; org-tag-faces alone reaches nothing once this mode is on.
+  (org-modern-tag-faces org-tag-faces))
 
 ;; Not on MELPA; keeps block backgrounds aligned under org-indent's
 ;; virtual indentation, which org-modern alone does not handle.  Pinned to a
