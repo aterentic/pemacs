@@ -417,9 +417,9 @@ Set this in early-init-local.el to override it for a machine.")
         org-habit-graph-column 50))
 
 ;;; appt - appointment notifications
-(use-package alert
-  :custom
-  (alert-default-style 'osx-notifier))
+;; How an alert reaches the desktop is a property of the machine, so the style
+;; is chosen in init-local.el.  Without one, alerts land in the echo area.
+(use-package alert)
 
 (use-package appt
   :ensure nil
