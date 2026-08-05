@@ -388,6 +388,17 @@ Set this in early-init-local.el to override it for a machine.")
   :vc (:url "https://github.com/jdtsmith/org-modern-indent" :rev "v0.5.3")
   :hook (org-indent-mode . org-modern-indent-mode))
 
+;; Slides are served from the CDN, so exported files carry no assets and stay
+;; small, at the cost of needing a network when presenting.  Point the root at
+;; a checkout to present offline.  The version is pinned because a major
+;; reveal.js release moves the asset paths, and it must be stated explicitly
+;; since org-re-reveal can only infer it from a local directory.
+(use-package org-re-reveal
+  :after org
+  :custom
+  (org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js@6.0.1")
+  (org-re-reveal-revealjs-version "6"))
+
 (use-package org-crypt
   :ensure nil
   :after org
