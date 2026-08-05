@@ -346,7 +346,7 @@ Set this in early-init-local.el to override it for a machine.")
 	   ((agenda "" ((org-agenda-span 'day))))
            ((org-agenda-tag-filter-preset '("+reminder"))))
 	  ("p" "Projects" tags-todo "TODO=\"TODO\"+project")
-	  ("w" "Watch" tags-todo "TODO=\"TODO\"+watch")))
+	  ("w" "Watch" tags-todo "TODO=\"WANT\"+watch")))
   :config
   (require 'reaktor-org-agenda)
   (define-key org-agenda-mode-map (kbd "C-c g") #'reaktor/org-agenda-reload-from-disk)
